@@ -1,6 +1,6 @@
 # Stoa Skill Catalog
 
-> Auto-generated from the skill registry. **251 skills** across 62 domains.
+> Auto-generated from the skill registry. **255 skills** across 63 domains.
 
 ## commerce (7)
 
@@ -539,6 +539,15 @@
 | `DISPUTE_OPEN` | Open a dispute case in the ArbiterPanel referencing a StoaEscrow job, with evidence. |
 | `DISPUTE_VOTE` | Vote as an arbiter on a dispute case (favor payee or payer). Requires arbiter rights. |
 | `DISPUTE_GET` | Read a dispute case: referenced job, evidence, vote tally, and current verdict. |
+
+## marketdata (4)
+
+| Skill | Description |
+|-------|-------------|
+| `DEFILLAMA_PRICES` | Fetch current USD prices for tokens from DeFiLlama using "chain:address" identifiers. |
+| `DEFILLAMA_PROTOCOL_TVL` | Fetch the current Total Value Locked (USD) for a DeFi protocol from DeFiLlama. |
+| `DEXSCREENER_TOKEN` | Fetch DEX market pairs and pricing for a token address from DexScreener. |
+| `DEXSCREENER_SEARCH` | Search DexScreener for DEX pairs matching a ticker or name; returns the top matches by FDV. |
 
 ## keeper (2)
 

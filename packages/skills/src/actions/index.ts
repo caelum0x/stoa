@@ -68,6 +68,7 @@ import { sessionkeyActions } from "./sessionkey/index.js";
 import { subscriptionActions } from "./subscription/index.js";
 import { vaultActions } from "./vault/index.js";
 import { disputeActions } from "./dispute/index.js";
+import { marketdataActions } from "./marketdata/index.js";
 import { keeperActions } from "./keeper/index.js";
 import { rwaActions } from "./rwa/index.js";
 import { repvalueActions } from "./repvalue/index.js";
@@ -144,6 +145,7 @@ export const actionGroups = {
   subscription: subscriptionActions,
   vault: vaultActions,
   dispute: disputeActions,
+  marketdata: marketdataActions,
   keeper: keeperActions,
   rwa: rwaActions,
   repvalue: repvalueActions,

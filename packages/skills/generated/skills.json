@@ -1,6 +1,6 @@
 {
-  "totalSkills": 251,
-  "totalDomains": 62,
+  "totalSkills": 255,
+  "totalDomains": 63,
   "domains": [
     {
       "domain": "commerce",
@@ -1325,6 +1325,28 @@
         {
           "name": "DISPUTE_GET",
           "description": "Read a dispute case: referenced job, evidence, vote tally, and current verdict."
+        }
+      ]
+    },
+    {
+      "domain": "marketdata",
+      "count": 4,
+      "skills": [
+        {
+          "name": "DEFILLAMA_PRICES",
+          "description": "Fetch current USD prices for tokens from DeFiLlama using \"chain:address\" identifiers."
+        },
+        {
+          "name": "DEFILLAMA_PROTOCOL_TVL",
+          "description": "Fetch the current Total Value Locked (USD) for a DeFi protocol from DeFiLlama."
+        },
+        {
+          "name": "DEXSCREENER_TOKEN",
+          "description": "Fetch DEX market pairs and pricing for a token address from DexScreener."
+        },
+        {
+          "name": "DEXSCREENER_SEARCH",
+          "description": "Search DexScreener for DEX pairs matching a ticker or name; returns the top matches by FDV."
         }
       ]
     },
