@@ -1,6 +1,6 @@
 # Stoa Skill Catalog
 
-> Auto-generated from the skill registry. **243 skills** across 59 domains.
+> Auto-generated from the skill registry. **251 skills** across 62 domains.
 
 ## commerce (7)
 
@@ -539,3 +539,26 @@
 | `DISPUTE_OPEN` | Open a dispute case in the ArbiterPanel referencing a StoaEscrow job, with evidence. |
 | `DISPUTE_VOTE` | Vote as an arbiter on a dispute case (favor payee or payer). Requires arbiter rights. |
 | `DISPUTE_GET` | Read a dispute case: referenced job, evidence, vote tally, and current verdict. |
+
+## keeper (2)
+
+| Skill | Description |
+|-------|-------------|
+| `KEEPER_SCAN_SUBSCRIPTIONS` | Scan subscriptions and report which are currently chargeable (active, past nextCharge, funded). |
+| `KEEPER_CHARGE_DUE` | Attempt to charge each given subscription; collects tx hashes for those that succeed. |
+
+## rwa (4)
+
+| Skill | Description |
+|-------|-------------|
+| `RWA_ISSUE` | Issue a real-world-asset receipt (type, valuation, metadata) to a holder in the RwaRegistry. |
+| `RWA_TRANSFER` | Transfer a real-world-asset receipt you hold to another address. |
+| `RWA_REDEEM` | Redeem (settle) a real-world-asset receipt. Callable by the holder or issuer. |
+| `RWA_GET` | Read a real-world-asset receipt by id, or list the asset ids ever held by an address. |
+
+## repvalue (2)
+
+| Skill | Description |
+|-------|-------------|
+| `REPUTATION_VALUE_RECORD` | Record that you settled some value with an agent, accruing its value-weighted reputation. Meant to be called by the paying counterparty after an escrow/tip/stream settles. |
+| `REPUTATION_VALUE_SCORE` | Read an agent's value-weighted reputation: total value settled, job count, and average. |

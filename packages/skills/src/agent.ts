@@ -37,6 +37,8 @@ export interface StoaContracts {
   subscriptions?: `0x${string}`;
   vault?: `0x${string}`;
   arbiterPanel?: `0x${string}`;
+  rwa?: `0x${string}`;
+  valueReputation?: `0x${string}`;
 }
 
 /// The execution context handed to every Stoa skill handler.
@@ -96,6 +98,8 @@ export class StoaAgent {
         subscriptions: env.STOA_SUBSCRIPTIONS_ADDRESS as `0x${string}` | undefined,
         vault: env.STOA_VAULT_ADDRESS as `0x${string}` | undefined,
         arbiterPanel: env.STOA_ARBITERPANEL_ADDRESS as `0x${string}` | undefined,
+        rwa: env.STOA_RWA_ADDRESS as `0x${string}` | undefined,
+        valueReputation: env.STOA_VALUEREPUTATION_ADDRESS as `0x${string}` | undefined,
       },
     });
   }

@@ -68,6 +68,9 @@ import { sessionkeyActions } from "./sessionkey/index.js";
 import { subscriptionActions } from "./subscription/index.js";
 import { vaultActions } from "./vault/index.js";
 import { disputeActions } from "./dispute/index.js";
+import { keeperActions } from "./keeper/index.js";
+import { rwaActions } from "./rwa/index.js";
+import { repvalueActions } from "./repvalue/index.js";
 
 /// The flagship commerce skills — the heart of the agent economy.
 export const commerceActions: Action[] = [
@@ -141,6 +144,9 @@ export const actionGroups = {
   subscription: subscriptionActions,
   vault: vaultActions,
   dispute: disputeActions,
+  keeper: keeperActions,
+  rwa: rwaActions,
+  repvalue: repvalueActions,
 } as const;
 
 /// The full, flat Stoa skill suite.

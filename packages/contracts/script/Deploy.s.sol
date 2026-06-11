@@ -13,6 +13,8 @@ import {SessionKeyManager} from "../src/SessionKeyManager.sol";
 import {SubscriptionManager} from "../src/SubscriptionManager.sol";
 import {AgentVault} from "../src/AgentVault.sol";
 import {ArbiterPanel} from "../src/ArbiterPanel.sol";
+import {RwaRegistry} from "../src/RwaRegistry.sol";
+import {ValueReputation} from "../src/ValueReputation.sol";
 
 /// @notice Deploys StoaRegistry + StoaEscrow to Pharos Atlantic.
 /// @dev Run with:
@@ -53,6 +55,8 @@ contract Deploy {
         vaultOwners[0] = vm.addr(pk);
         AgentVault vault = new AgentVault(vaultOwners, 1);
         ArbiterPanel panel = new ArbiterPanel(vaultOwners, 1);
+        RwaRegistry rwa = new RwaRegistry();
+        ValueReputation valueRep = new ValueReputation();
 
         vm.stopBroadcast();
 
@@ -60,6 +64,8 @@ contract Deploy {
         emit Deployed("SubscriptionManager", address(subscriptions));
         emit Deployed("AgentVault", address(vault));
         emit Deployed("ArbiterPanel", address(panel));
+        emit Deployed("RwaRegistry", address(rwa));
+        emit Deployed("ValueReputation", address(valueRep));
 
         emit Deployed("StoaRegistry", address(registry));
         emit Deployed("StoaEscrow", address(escrow));

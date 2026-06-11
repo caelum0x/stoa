@@ -18,6 +18,8 @@ export interface DeploymentManifest {
     subscriptions?: string;
     vault?: string;
     arbiterPanel?: string;
+    rwa?: string;
+    valueReputation?: string;
   };
 }
 
