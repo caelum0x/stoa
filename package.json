@@ -15,7 +15,10 @@
     "contracts:build": "forge build --root packages/contracts",
     "contracts:test": "forge test --root packages/contracts -vv",
     "contracts:deploy": "forge script packages/contracts/script/Deploy.s.sol:Deploy --root packages/contracts --rpc-url $PHAROS_RPC_URL --broadcast",
-    "test:integration": "bash scripts/run-integration.sh"
+    "test:integration": "bash scripts/run-integration.sh",
+    "demo:full": "pnpm --filter @stoa/examples demo:full",
+    "skills:catalog": "pnpm --filter @stoa/skills exec tsx scripts/gen-catalog.ts",
+    "win": "pnpm --filter @stoa/skills test && pnpm contracts:test && pnpm demo:full"
   },
   "license": "MIT"
 }

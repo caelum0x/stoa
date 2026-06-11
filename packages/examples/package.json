@@ -9,10 +9,12 @@
     "monetize": "tsx src/02-monetize-and-pay.ts",
     "escrow": "tsx src/03-escrow-job.ts",
     "guard": "tsx src/04-treasury-guard.ts",
+    "demo:full": "tsx src/99-full-commerce-loop.ts",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
     "@stoa/skills": "workspace:*",
+    "@stoa/sdk": "workspace:*",
     "viem": "^2.21.0"
   },
   "devDependencies": {

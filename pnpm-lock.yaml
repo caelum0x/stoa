@@ -48,6 +48,9 @@ importers:
 
   packages/examples:
     dependencies:
+      '@stoa/sdk':
+        specifier: workspace:*
+        version: link:../sdk
       '@stoa/skills':
         specifier: workspace:*
         version: link:../skills
@@ -61,6 +64,22 @@ importers:
       tsx:
         specifier: ^4.19.0
         version: 4.22.4
+      typescript:
+        specifier: ^5.6.0
+        version: 5.9.3
+
+  packages/sdk:
+    dependencies:
+      '@stoa/skills':
+        specifier: workspace:*
+        version: link:../skills
+      viem:
+        specifier: ^2.21.0
+        version: 2.52.2(typescript@5.9.3)(zod@3.25.76)
+    devDependencies:
+      '@types/node':
+        specifier: ^22.0.0
+        version: 22.19.20
       typescript:
         specifier: ^5.6.0
         version: 5.9.3

@@ -44,10 +44,11 @@ deployment on Pharos, and alignment with the agent-economy vision.
 Each skill is a Pharos Agent Kit-compatible **action** (`{ name, similes, description, examples,
 schema, handler }`) and ships with **LangChain**, **Vercel AI SDK**, and **MCP** adapters.
 
-### The full skill library (220+ skills, 50+ domains)
+### Supporting toolkit
 
-The seven commerce skills above are the flagship. They sit on top of a **comprehensive Pharos
-agent toolkit** so a single agent can do everything on-chain without leaving the Stoa SDK:
+The seven commerce skills above are the flagship and the story. Beneath them sits a **broad,
+auto-generated Pharos utility toolkit** so a single agent never has to leave the Stoa SDK for
+routine on-chain work:
 
 | Domain | Examples |
 |--------|----------|
@@ -71,11 +72,14 @@ See the auto-generated [**full catalog → docs/SKILLS.md**](docs/SKILLS.md). Re
 ```
 stoa/
 ├── packages/
-│   ├── skills/          @stoa/skills — the six skills + adapters (Phase 1 deliverable)
-│   ├── contracts/       Foundry: StoaRegistry + StoaEscrow (+ tests, deploy script)
+│   ├── skills/          @stoa/skills — the commerce skills + adapters (Phase 1 deliverable)
+│   ├── sdk/             @stoa/sdk — StoaClient, the developer-facing commerce client
+│   ├── contracts/       Foundry: 13 contracts (+ tests, deploy script)
 │   ├── agent-mercator/  @stoa/agent-mercator — the Phase 2 flagship agent
-│   └── examples/        runnable, per-skill examples
-├── docs/                architecture, security model, deployment
+│   ├── cli/             @stoa/cli — run any skill from the terminal
+│   └── examples/        runnable, per-skill examples + the full commerce loop
+├── docs/                architecture, security, deployment, demo script, roadmap
+├── HACKATHON.md         pitch + judging matrix
 └── README.md
 ```
 
@@ -115,9 +119,19 @@ pnpm contracts:deploy           # prints StoaRegistry + StoaEscrow addresses
 pnpm --filter @stoa/skills test
 pnpm build
 
-# 4) Run the flagship loop (needs two funded testnet keys + deployed addresses)
-pnpm --filter @stoa/agent-mercator start
+# 4) The winning demo — the full commerce loop in one command (tx hashes printed)
+pnpm demo:full
+# or run the whole gauntlet: skills tests + contracts tests + demo
+pnpm win
+
+# 5) Or use the typed client directly
+#   import { StoaClient } from "@stoa/sdk"
+#   const stoa = StoaClient.fromEnv()
+#   await stoa.createEscrow({ payee, milestones: ["0.001"] })
 ```
+
+> **Judges:** start with **[HACKATHON.md](HACKATHON.md)** and **[docs/WINNING_FLOW.md](docs/WINNING_FLOW.md)** —
+> the whole project is one loop: `discover → trust → hire → pay → settle → rate`.
 
 > **Network note:** the optional `@x402/*` packages and `express` power the live payment skills.
 > They are declared as `optionalDependencies`; install them in your environment to exercise

@@ -1,0 +1,17 @@
+Stoa — The Agent Commerce Stack for Pharos
+Copyright (c) 2026 Stoa contributors. Licensed under MIT (see LICENSE).
+
+This project builds on and is inspired by open-source work in the Pharos and x402 ecosystems:
+
+- Pharos Agent Kit (pharos-agent-kit/pharos-agent-kit) — the action/skill shape
+  ({ name, similes, description, examples, schema, handler }) and the LangChain / Vercel AI SDK /
+  MCP adapter pattern.
+- x402 (x402-foundation/x402) — the HTTP-402 agentic payment standard wrapped by the
+  x402_pay / x402_monetize skills and the local facilitator example.
+- PharosNetwork/examples — Pharos Atlantic deployment patterns and the x402-pharos reference.
+
+Implementation patterns are inspired by these projects; no third-party private keys, secrets, or
+generated artifacts are included. Contract addresses and ABIs in this repo are this project's own.
+
+Standards referenced: x402 (internet-native payments) and ERC-8004-style trustless agent identity /
+reputation registries.

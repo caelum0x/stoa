@@ -7,6 +7,9 @@ export type { DeploymentManifest } from "./deployments.js";
 export { createElizaPlugin } from "./eliza.js";
 export type { ElizaPlugin, ElizaAction } from "./eliza.js";
 
+// Flagship commerce skills, grouped for the hackathon submission.
+export { stoaCommerceSkills } from "./actions/commerce/index.js";
+
 export type { Action, ActionResult, ActionExample, ActionStatus } from "./types.js";
 export { ok, fail, errorMessage } from "./types.js";
 
