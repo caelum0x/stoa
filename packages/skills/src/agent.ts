@@ -18,6 +18,8 @@ export interface StoaAgentOptions {
   rpcUrl?: string;
   /// Chain id. Defaults to Pharos Atlantic (688689).
   chainId?: number;
+  /// Full viem Chain override (e.g. a local anvil chain). Takes precedence over chainId.
+  chain?: Chain;
   /// Deployed contract addresses, surfaced to skills that need them.
   contracts?: StoaContracts;
 }
@@ -46,7 +48,7 @@ export class StoaAgent {
   readonly contracts: StoaContracts;
 
   constructor(options: StoaAgentOptions) {
-    const chain = KNOWN_CHAINS[options.chainId ?? DEFAULT_CHAIN.id] ?? DEFAULT_CHAIN;
+    const chain = options.chain ?? KNOWN_CHAINS[options.chainId ?? DEFAULT_CHAIN.id] ?? DEFAULT_CHAIN;
     const rpcUrl = options.rpcUrl ?? chain.rpcUrls.default.http[0];
     if (!rpcUrl) throw new Error(`No RPC URL configured for chain ${chain.id}`);
 
