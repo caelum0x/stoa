@@ -23,3 +23,16 @@ export {
   ValidationError,
 } from "./errors.js";
 export { loadAddressesFromEnv } from "./addresses.js";
+export { loadConfig } from "./config.js";
+export type { ResolvedConfig } from "./config.js";
+
+// Low-level, namespaced contract read helpers and integration modules.
+export * as registry from "./contracts/registry.js";
+export * as escrow from "./contracts/escrow.js";
+export * as services from "./contracts/services.js";
+export * as tipjar from "./contracts/tipjar.js";
+export * as x402 from "./x402/client.js";
+export * as x402server from "./x402/server.js";
+export type { X402Quote } from "./x402/types.js";
+export { isWithinPolicy } from "./treasury/policy.js";
+export { canAfford } from "./treasury/simulate.js";
