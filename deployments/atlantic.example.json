@@ -1,0 +1,17 @@
+{
+  "network": "pharos-atlantic",
+  "chainId": 688689,
+  "rpcUrl": "https://atlantic.dplabs-internal.com/",
+  "contracts": {
+    "registry": "0x...",
+    "escrow": "0x...",
+    "services": "0x...",
+    "social": "0x...",
+    "tipJar": "0x...",
+    "streaming": "0x...",
+    "faucet": "0x...",
+    "sessionKeys": "0x...",
+    "subscriptions": "0x...",
+    "vault": "0x..."
+  }
+}

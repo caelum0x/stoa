@@ -2,6 +2,8 @@
 
 export { StoaAgent } from "./agent.js";
 export type { StoaAgentOptions, StoaContracts } from "./agent.js";
+export { manifestToContracts, parseManifest } from "./deployments.js";
+export type { DeploymentManifest } from "./deployments.js";
 
 export type { Action, ActionResult, ActionExample, ActionStatus } from "./types.js";
 export { ok, fail, errorMessage } from "./types.js";

@@ -10,6 +10,7 @@ import {
 } from "viem";
 import { privateKeyToAccount } from "viem/accounts";
 import { DEFAULT_CHAIN, KNOWN_CHAINS } from "./chains.js";
+import { manifestToContracts, type DeploymentManifest } from "./deployments.js";
 
 export interface StoaAgentOptions {
   /// Hex private key for the agent's signer (testnet only).
@@ -94,6 +95,20 @@ export class StoaAgent {
         subscriptions: env.STOA_SUBSCRIPTIONS_ADDRESS as `0x${string}` | undefined,
         vault: env.STOA_VAULT_ADDRESS as `0x${string}` | undefined,
       },
+    });
+  }
+
+  /// Build an agent from a deployment manifest (deployments/<network>.json) plus a signer key.
+  /// Loads chain id, RPC, and all contract addresses from the manifest in one shot.
+  static fromManifest(
+    manifest: DeploymentManifest,
+    opts: { privateKey: `0x${string}`; rpcUrl?: string },
+  ): StoaAgent {
+    return new StoaAgent({
+      privateKey: opts.privateKey,
+      rpcUrl: opts.rpcUrl ?? manifest.rpcUrl,
+      chainId: manifest.chainId,
+      contracts: manifestToContracts(manifest),
     });
   }
 
