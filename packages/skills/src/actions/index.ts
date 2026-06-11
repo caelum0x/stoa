@@ -67,6 +67,7 @@ import { permitsignActions } from "./permitsign/index.js";
 import { sessionkeyActions } from "./sessionkey/index.js";
 import { subscriptionActions } from "./subscription/index.js";
 import { vaultActions } from "./vault/index.js";
+import { disputeActions } from "./dispute/index.js";
 
 /// The flagship commerce skills — the heart of the agent economy.
 export const commerceActions: Action[] = [
@@ -139,6 +140,7 @@ export const actionGroups = {
   sessionkey: sessionkeyActions,
   subscription: subscriptionActions,
   vault: vaultActions,
+  dispute: disputeActions,
 } as const;
 
 /// The full, flat Stoa skill suite.

@@ -93,6 +93,7 @@ stoa/
 | `SessionKeyManager` | deposit + delegate scoped, expiring spend allowances to session keys |
 | `SubscriptionManager` | recurring pull-payments (plans, subscribe, charge-per-period) |
 | `AgentVault` | k-of-n multisig for shared agent / DAO treasuries |
+| `ArbiterPanel` | on-chain dispute resolution — arbiters vote a verdict on escrow jobs |
 
 All contracts are reentrancy-guarded, dependency-free (clean CertiK surface), and covered by a
 fully offline test suite (`pnpm contracts:test`).

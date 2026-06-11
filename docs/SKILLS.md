@@ -1,6 +1,6 @@
 # Stoa Skill Catalog
 
-> Auto-generated from the skill registry. **240 skills** across 58 domains.
+> Auto-generated from the skill registry. **243 skills** across 59 domains.
 
 ## commerce (7)
 
@@ -531,3 +531,11 @@
 | `VAULT_EXECUTE` | Execute an AgentVault transaction that has met its confirmation threshold, dispatching the funds and calldata. |
 | `VAULT_GET_TX` | Read a single AgentVault transaction proposal: destination, value, calldata, executed flag, and confirmation count. |
 | `VAULT_INFO` | Read the AgentVault configuration: confirmation threshold, owner count, and total transaction count. |
+
+## dispute (3)
+
+| Skill | Description |
+|-------|-------------|
+| `DISPUTE_OPEN` | Open a dispute case in the ArbiterPanel referencing a StoaEscrow job, with evidence. |
+| `DISPUTE_VOTE` | Vote as an arbiter on a dispute case (favor payee or payer). Requires arbiter rights. |
+| `DISPUTE_GET` | Read a dispute case: referenced job, evidence, vote tally, and current verdict. |

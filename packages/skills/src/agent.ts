@@ -36,6 +36,7 @@ export interface StoaContracts {
   sessionKeys?: `0x${string}`;
   subscriptions?: `0x${string}`;
   vault?: `0x${string}`;
+  arbiterPanel?: `0x${string}`;
 }
 
 /// The execution context handed to every Stoa skill handler.
@@ -94,6 +95,7 @@ export class StoaAgent {
         sessionKeys: env.STOA_SESSIONKEYS_ADDRESS as `0x${string}` | undefined,
         subscriptions: env.STOA_SUBSCRIPTIONS_ADDRESS as `0x${string}` | undefined,
         vault: env.STOA_VAULT_ADDRESS as `0x${string}` | undefined,
+        arbiterPanel: env.STOA_ARBITERPANEL_ADDRESS as `0x${string}` | undefined,
       },
     });
   }

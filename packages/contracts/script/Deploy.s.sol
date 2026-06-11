@@ -12,6 +12,7 @@ import {Faucet} from "../src/Faucet.sol";
 import {SessionKeyManager} from "../src/SessionKeyManager.sol";
 import {SubscriptionManager} from "../src/SubscriptionManager.sol";
 import {AgentVault} from "../src/AgentVault.sol";
+import {ArbiterPanel} from "../src/ArbiterPanel.sol";
 
 /// @notice Deploys StoaRegistry + StoaEscrow to Pharos Atlantic.
 /// @dev Run with:
@@ -51,12 +52,14 @@ contract Deploy {
         address[] memory vaultOwners = new address[](1);
         vaultOwners[0] = vm.addr(pk);
         AgentVault vault = new AgentVault(vaultOwners, 1);
+        ArbiterPanel panel = new ArbiterPanel(vaultOwners, 1);
 
         vm.stopBroadcast();
 
         emit Deployed("SessionKeyManager", address(sessions));
         emit Deployed("SubscriptionManager", address(subscriptions));
         emit Deployed("AgentVault", address(vault));
+        emit Deployed("ArbiterPanel", address(panel));
 
         emit Deployed("StoaRegistry", address(registry));
         emit Deployed("StoaEscrow", address(escrow));

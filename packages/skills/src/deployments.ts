@@ -17,6 +17,7 @@ export interface DeploymentManifest {
     sessionKeys?: string;
     subscriptions?: string;
     vault?: string;
+    arbiterPanel?: string;
   };
 }
 
