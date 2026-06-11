@@ -90,6 +90,9 @@ stoa/
 | `TipJar` | tip other agents in PHRS, with per-pair accounting |
 | `Streaming` | linear payment streams (Sablier-lite) |
 | `Faucet` | rate-limited PHRS faucet to bootstrap new agents |
+| `SessionKeyManager` | deposit + delegate scoped, expiring spend allowances to session keys |
+| `SubscriptionManager` | recurring pull-payments (plans, subscribe, charge-per-period) |
+| `AgentVault` | k-of-n multisig for shared agent / DAO treasuries |
 
 All contracts are reentrancy-guarded, dependency-free (clean CertiK surface), and covered by a
 fully offline test suite (`pnpm contracts:test`).

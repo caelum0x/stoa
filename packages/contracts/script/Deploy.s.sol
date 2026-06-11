@@ -9,6 +9,9 @@ import {SocialFeed} from "../src/SocialFeed.sol";
 import {TipJar} from "../src/TipJar.sol";
 import {Streaming} from "../src/Streaming.sol";
 import {Faucet} from "../src/Faucet.sol";
+import {SessionKeyManager} from "../src/SessionKeyManager.sol";
+import {SubscriptionManager} from "../src/SubscriptionManager.sol";
+import {AgentVault} from "../src/AgentVault.sol";
 
 /// @notice Deploys StoaRegistry + StoaEscrow to Pharos Atlantic.
 /// @dev Run with:
@@ -43,7 +46,17 @@ contract Deploy {
         streaming = new Streaming();
         faucet = new Faucet(0.5 ether, 12 hours);
 
+        SessionKeyManager sessions = new SessionKeyManager();
+        SubscriptionManager subscriptions = new SubscriptionManager();
+        address[] memory vaultOwners = new address[](1);
+        vaultOwners[0] = vm.addr(pk);
+        AgentVault vault = new AgentVault(vaultOwners, 1);
+
         vm.stopBroadcast();
+
+        emit Deployed("SessionKeyManager", address(sessions));
+        emit Deployed("SubscriptionManager", address(subscriptions));
+        emit Deployed("AgentVault", address(vault));
 
         emit Deployed("StoaRegistry", address(registry));
         emit Deployed("StoaEscrow", address(escrow));

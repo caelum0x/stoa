@@ -32,6 +32,9 @@ export interface StoaContracts {
   tipJar?: `0x${string}`;
   streaming?: `0x${string}`;
   faucet?: `0x${string}`;
+  sessionKeys?: `0x${string}`;
+  subscriptions?: `0x${string}`;
+  vault?: `0x${string}`;
 }
 
 /// The execution context handed to every Stoa skill handler.
@@ -87,6 +90,9 @@ export class StoaAgent {
         tipJar: env.STOA_TIPJAR_ADDRESS as `0x${string}` | undefined,
         streaming: env.STOA_STREAMING_ADDRESS as `0x${string}` | undefined,
         faucet: env.STOA_FAUCET_ADDRESS as `0x${string}` | undefined,
+        sessionKeys: env.STOA_SESSIONKEYS_ADDRESS as `0x${string}` | undefined,
+        subscriptions: env.STOA_SUBSCRIPTIONS_ADDRESS as `0x${string}` | undefined,
+        vault: env.STOA_VAULT_ADDRESS as `0x${string}` | undefined,
       },
     });
   }

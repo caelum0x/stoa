@@ -64,6 +64,9 @@ import { vault4626Actions } from "./vault4626/index.js";
 import { erc721enumActions } from "./erc721enum/index.js";
 import { nodeinfoActions } from "./nodeinfo/index.js";
 import { permitsignActions } from "./permitsign/index.js";
+import { sessionkeyActions } from "./sessionkey/index.js";
+import { subscriptionActions } from "./subscription/index.js";
+import { vaultActions } from "./vault/index.js";
 
 /// The flagship commerce skills — the heart of the agent economy.
 export const commerceActions: Action[] = [
@@ -133,6 +136,9 @@ export const actionGroups = {
   erc721enum: erc721enumActions,
   nodeinfo: nodeinfoActions,
   permitsign: permitsignActions,
+  sessionkey: sessionkeyActions,
+  subscription: subscriptionActions,
+  vault: vaultActions,
 } as const;
 
 /// The full, flat Stoa skill suite.

@@ -1,6 +1,6 @@
 # Stoa Skill Catalog
 
-> Auto-generated from the skill registry. **222 skills** across 55 domains.
+> Auto-generated from the skill registry. **240 skills** across 58 domains.
 
 ## commerce (7)
 
@@ -498,3 +498,36 @@
 | Skill | Description |
 |-------|-------------|
 | `BUILD_PERMIT_TYPED_DATA` | Build the EIP-712 typed data object for an ERC-2612 Permit. Owner is the agent. Pure: no network access. |
+
+## sessionkey (6)
+
+| Skill | Description |
+|-------|-------------|
+| `SESSION_DEPOSIT` | Deposit native PHRS into the SessionKeyManager so authorized session keys can spend against it. |
+| `SESSION_AUTHORIZE` | Authorize a session key to spend up to a PHRS cap until a given expiry through the SessionKeyManager. |
+| `SESSION_REVOKE` | Revoke a previously authorized session key so it can no longer spend through the SessionKeyManager. |
+| `SESSION_SPEND` | As an authorized session key, spend an owner's deposited PHRS to a recipient via the SessionKeyManager. |
+| `SESSION_WITHDRAW` | Withdraw unspent native PHRS from your SessionKeyManager balance back to your wallet. |
+| `SESSION_ALLOWANCE` | Read the spending cap, expiry, and active flag for a session key under an owner from the SessionKeyManager. |
+
+## subscription (6)
+
+| Skill | Description |
+|-------|-------------|
+| `SUBSCRIPTION_CREATE_PLAN` | Create a recurring subscription plan with a native PHRS price charged every period seconds. |
+| `SUBSCRIPTION_SUBSCRIBE` | Subscribe to a billing plan on SubscriptionManager, funding the subscription with native PHRS. |
+| `SUBSCRIPTION_CHARGE` | Charge a due subscription on SubscriptionManager, debiting its balance and advancing the next charge time. |
+| `SUBSCRIPTION_TOPUP` | Top up a subscription's balance with native PHRS so future charges can be collected. |
+| `SUBSCRIPTION_CANCEL` | Cancel an active subscription on SubscriptionManager, stopping future charges. |
+| `SUBSCRIPTION_GET` | Read a subscription's plan, subscriber, balance, next charge time, and active flag from SubscriptionManager. |
+
+## vault (6)
+
+| Skill | Description |
+|-------|-------------|
+| `VAULT_SUBMIT` | Submit a new transaction proposal to the AgentVault multisig, sending native PHRS and optional calldata. |
+| `VAULT_CONFIRM` | Confirm a pending AgentVault transaction proposal, adding the caller's approval toward the threshold. |
+| `VAULT_REVOKE` | Revoke the caller's confirmation on a pending AgentVault transaction, lowering its approval count. |
+| `VAULT_EXECUTE` | Execute an AgentVault transaction that has met its confirmation threshold, dispatching the funds and calldata. |
+| `VAULT_GET_TX` | Read a single AgentVault transaction proposal: destination, value, calldata, executed flag, and confirmation count. |
+| `VAULT_INFO` | Read the AgentVault configuration: confirmation threshold, owner count, and total transaction count. |
