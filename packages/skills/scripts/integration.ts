@@ -63,11 +63,14 @@ async function main(): Promise<void> {
   console.log("Deploying contracts to anvil…");
   const registry = await deploy("StoaRegistry");
   const escrow = await deploy("StoaEscrow");
+  const services = await deploy("ServiceRegistry");
   const social = await deploy("SocialFeed");
   const tipJar = await deploy("TipJar");
-  console.log(`  registry=${registry}\n  escrow=${escrow}\n  social=${social}\n  tipJar=${tipJar}\n`);
+  const valueReputation = await deploy("ValueReputation");
+  console.log(`  registry=${registry}\n  escrow=${escrow}\n  services=${services}`);
+  console.log(`  social=${social}\n  tipJar=${tipJar}\n  valueReputation=${valueReputation}\n`);
 
-  const contracts = { registry, escrow, social, tipJar };
+  const contracts = { registry, escrow, services, social, tipJar, valueReputation };
   const worker = new StoaAgent({ privateKey: KEY0, chain: anvil, rpcUrl: RPC, contracts });
   const buyer = new StoaAgent({ privateKey: KEY1, chain: anvil, rpcUrl: RPC, contracts });
 
@@ -84,7 +87,24 @@ async function main(): Promise<void> {
   const resolved = await actionsByName.AGENT_IDENTITY!.handler(buyer, { op: "resolve", agentId });
   check("agent_identity resolve", resolved.status === "success", resolved.message);
 
-  // 2) Escrow: buyer hires worker, then releases
+  // 2) Marketplace: worker lists a service, buyer discovers it
+  const listed = await actionsByName.SERVICE_LISTING!.handler(worker, {
+    op: "list",
+    capability: "research",
+    endpoint: "https://worker.example/x402/summary",
+    price: "0.01",
+    agentId,
+  });
+  check("service_listing list", listed.status === "success", listed.message);
+
+  const discovered = await actionsByName.SERVICE_LISTING!.handler(buyer, { op: "browse", capability: "research" });
+  check(
+    "service_listing browse finds the listing",
+    discovered.status === "success" && ((discovered.data as { serviceIds?: number[] })?.serviceIds?.length ?? 0) >= 1,
+    discovered.data,
+  );
+
+  // 3) Escrow: buyer hires worker, then releases
   const job = await actionsByName.AGENT_ESCROW!.handler(buyer, {
     op: "create",
     payee: worker.address,
@@ -113,13 +133,27 @@ async function main(): Promise<void> {
     score.data,
   );
 
-  // 4) Social
+  // 4) Value-weighted reputation: buyer records the settled value
+  const recorded = await actionsByName.REPUTATION_VALUE_RECORD!.handler(buyer, {
+    agentId,
+    value: "1000000000000000",
+  });
+  check("reputation_value_record", recorded.status === "success", recorded.message);
+
+  const valueScore = await actionsByName.REPUTATION_VALUE_SCORE!.handler(worker, { agentId });
+  check(
+    "reputation_value_score reflects settlement",
+    valueScore.status === "success" && (valueScore.data as { jobCount?: number })?.jobCount === 1,
+    valueScore.data,
+  );
+
+  // 5) Social
   const post = await actionsByName.SOCIAL_POST!.handler(worker, {
     contentURI: "data:text/plain,gm from the worker agent",
   });
   check("social_post", post.status === "success", post.message);
 
-  // 5) Tipping
+  // 6) Tipping
   const tip = await actionsByName.TIP_SEND!.handler(buyer, {
     to: worker.address,
     amount: "0.01",
