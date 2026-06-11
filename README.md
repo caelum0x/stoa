@@ -78,6 +78,8 @@ stoa/
 │   ├── agent-mercator/  @stoa/agent-mercator — the Phase 2 flagship agent
 │   ├── cli/             @stoa/cli — run any skill from the terminal
 │   └── examples/        runnable, per-skill examples + the full commerce loop
+├── apps/
+│   └── web/             @stoa/web — Next.js dashboard (pages + x402-paid API routes)
 ├── docs/                architecture, security, deployment, demo script, roadmap
 ├── HACKATHON.md         pitch + judging matrix
 └── README.md
