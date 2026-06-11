@@ -42,6 +42,28 @@ import { accountActions } from "./account/index.js";
 import { timeActions } from "./time/index.js";
 import { agentcardActions } from "./agentcard/index.js";
 import { siweActions } from "./siwe/index.js";
+import { gasActions } from "./gas/index.js";
+import { blocksActions } from "./blocks/index.js";
+import { simulateActions } from "./simulate/index.js";
+import { addressutilsActions } from "./addressutils/index.js";
+import { sigutilsActions } from "./sigutils/index.js";
+import { convertActions } from "./convert/index.js";
+import { rpcActions } from "./rpc/index.js";
+import { tokenlistActions } from "./tokenlist/index.js";
+import { permitActions } from "./permit/index.js";
+import { chainregActions } from "./chainreg/index.js";
+import { multibalanceActions } from "./multibalance/index.js";
+import { memoActions } from "./memo/index.js";
+import { erc165Actions } from "./erc165/index.js";
+import { base64Actions } from "./base64/index.js";
+import { randomActions } from "./random/index.js";
+import { durationActions } from "./duration/index.js";
+import { pricemathActions } from "./pricemath/index.js";
+import { ammActions } from "./amm/index.js";
+import { vault4626Actions } from "./vault4626/index.js";
+import { erc721enumActions } from "./erc721enum/index.js";
+import { nodeinfoActions } from "./nodeinfo/index.js";
+import { permitsignActions } from "./permitsign/index.js";
 
 /// The flagship commerce skills — the heart of the agent economy.
 export const commerceActions: Action[] = [
@@ -89,6 +111,28 @@ export const actionGroups = {
   time: timeActions,
   agentcard: agentcardActions,
   siwe: siweActions,
+  gas: gasActions,
+  blocks: blocksActions,
+  simulate: simulateActions,
+  addressutils: addressutilsActions,
+  sigutils: sigutilsActions,
+  convert: convertActions,
+  rpc: rpcActions,
+  tokenlist: tokenlistActions,
+  permit: permitActions,
+  chainreg: chainregActions,
+  multibalance: multibalanceActions,
+  memo: memoActions,
+  erc165: erc165Actions,
+  base64: base64Actions,
+  random: randomActions,
+  duration: durationActions,
+  pricemath: pricemathActions,
+  amm: ammActions,
+  vault4626: vault4626Actions,
+  erc721enum: erc721enumActions,
+  nodeinfo: nodeinfoActions,
+  permitsign: permitsignActions,
 } as const;
 
 /// The full, flat Stoa skill suite.

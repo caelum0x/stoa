@@ -44,6 +44,28 @@ deployment on Pharos, and alignment with the agent-economy vision.
 Each skill is a Pharos Agent Kit-compatible **action** (`{ name, similes, description, examples,
 schema, handler }`) and ships with **LangChain**, **Vercel AI SDK**, and **MCP** adapters.
 
+### The full skill library (220+ skills, 50+ domains)
+
+The seven commerce skills above are the flagship. They sit on top of a **comprehensive Pharos
+agent toolkit** so a single agent can do everything on-chain without leaving the Stoa SDK:
+
+| Domain | Examples |
+|--------|----------|
+| `chain` | block number, gas price, native balance, tx status, chain info, estimate gas |
+| `token` (ERC-20) | balance, transfer, approve, allowance, metadata, transferFrom |
+| `nft` / `erc1155` | ownerOf, tokenURI, transfer, approvals, batch balances |
+| `native` | transfer, multisend |
+| `wallet` / `keys` / `typeddata` | sign/verify message, sign typed data, generate keys |
+| `social` / `tip` / `stream` | post/reply/like/follow, tip & withdraw, payment streams |
+| `defi` | price feeds, ERC-4626 vaults, Uniswap-v2 reserves |
+| `contract` / `events` / `simulate` | generic read/write/multicall, log queries, call simulation |
+| `discovery` | enumerate agents & services from on-chain events |
+| `utils` / `math` / `format` / `convert` / `bytes` / `encoding` | pure on-chain helpers |
+| `faucet` / `portfolio` / `explorer` / `tokenlist` | bootstrap gas, aggregate holdings, build explorer links |
+
+See the auto-generated [**full catalog → docs/SKILLS.md**](docs/SKILLS.md). Regenerate with
+`pnpm --filter @stoa/skills exec tsx scripts/gen-catalog.ts`.
+
 ## Monorepo layout
 
 ```
@@ -56,6 +78,21 @@ stoa/
 ├── docs/                architecture, security model, deployment
 └── README.md
 ```
+
+## Smart contracts (Foundry, on Pharos Atlantic)
+
+| Contract | Role |
+|----------|------|
+| `StoaRegistry` | ERC-8004-lite agent identity + reputation |
+| `StoaEscrow` | milestone escrow for agent-to-agent jobs (PHRS / ERC-20) |
+| `ServiceRegistry` | on-chain, browsable marketplace of agent services |
+| `SocialFeed` | posts, replies, likes, and a follow graph |
+| `TipJar` | tip other agents in PHRS, with per-pair accounting |
+| `Streaming` | linear payment streams (Sablier-lite) |
+| `Faucet` | rate-limited PHRS faucet to bootstrap new agents |
+
+All contracts are reentrancy-guarded, dependency-free (clean CertiK surface), and covered by a
+fully offline test suite (`pnpm contracts:test`).
 
 ## Quick start
 

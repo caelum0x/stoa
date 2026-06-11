@@ -1,6 +1,6 @@
 # Stoa Skill Catalog
 
-> Auto-generated from the skill registry. **158 skills** across 33 domains.
+> Auto-generated from the skill registry. **222 skills** across 55 domains.
 
 ## commerce (7)
 
@@ -324,3 +324,177 @@
 |-------|-------------|
 | `BUILD_AUTH_MESSAGE` | Build a Sign-In With Ethereum style plaintext message for the agent's address on Pharos. |
 | `SIGN_AUTH_MESSAGE` | Sign a SIWE-like plaintext message with the agent's wallet and return the signature. |
+
+## gas (4)
+
+| Skill | Description |
+|-------|-------------|
+| `ESTIMATE_FEES` | Estimate EIP-1559 gas fees on Pharos: maxFeePerGas and maxPriorityFeePerGas, in wei and gwei. |
+| `MAX_PRIORITY_FEE` | Estimate the current max priority fee per gas (tip) on Pharos, in wei and gwei. |
+| `BASE_FEE` | Return the base fee per gas of the latest Pharos block, in wei and gwei (or null if unavailable). |
+| `TX_FEE_ESTIMATE` | Estimate the total fee for a native PHRS transfer by multiplying estimated gas by the gas price; returns the fee in PHRS. |
+
+## blocks (3)
+
+| Skill | Description |
+|-------|-------------|
+| `GET_BLOCK_BY_HASH` | Return a summary of a Pharos block identified by its hash: number, timestamp, and transaction count. |
+| `BLOCK_TX_COUNT` | Return the number of transactions in a Pharos block, by number or the latest block. |
+| `LATEST_BLOCKS` | Return summaries (number, timestamp, transaction count) of the most recent N Pharos blocks. |
+
+## simulate (3)
+
+| Skill | Description |
+|-------|-------------|
+| `RAW_CALL` | Simulate a low-level call (eth_call) with raw calldata and return the returned 0x bytes. |
+| `ESTIMATE_CONTRACT_GAS` | Estimate the gas required to execute a contract function call against Pharos. |
+| `PREPARE_TX` | Prepare a transaction request on Pharos and return its gas, fee, and nonce fields. |
+
+## addressutils (4)
+
+| Skill | Description |
+|-------|-------------|
+| `IS_ZERO_ADDRESS` | Return whether the given address equals the EVM zero address (0x0000...0000). |
+| `ADDRESS_EQUAL` | Return whether two EVM addresses are equal, ignoring checksum casing. |
+| `COMPUTE_CONTRACT_ADDRESS` | Compute the contract address a CREATE deployment would produce from a deployer address and nonce. |
+| `COMPUTE_CREATE2_ADDRESS` | Compute the deterministic CREATE2 contract address from a deployer, salt, and init code hash. |
+
+## sigutils (4)
+
+| Skill | Description |
+|-------|-------------|
+| `PARSE_SIGNATURE` | Parse a 0x-prefixed hex signature into its r, s, and v / yParity components. |
+| `SERIALIZE_SIGNATURE` | Serialize r, s, and yParity components into a single 0x-prefixed hex signature. |
+| `RECOVER_PUBLIC_KEY` | Recover the public key that produced a signature over a given hash. |
+| `RECOVER_TYPED_DATA_ADDRESS` | Recover the signer address from an EIP-712 typed-data signature. |
+
+## convert (5)
+
+| Skill | Description |
+|-------|-------------|
+| `HEX_TO_NUMBER` | Convert a 0x-prefixed hex string to a decimal number. |
+| `NUMBER_TO_HEX` | Convert an integer to a 0x-prefixed hex string, optionally padded to a byte size. |
+| `HEX_TO_BIGINT` | Convert a 0x-prefixed hex string to a big integer, returned as a decimal string. |
+| `BOOL_TO_HEX` | Convert a boolean to a 0x-prefixed hex string (0x1 for true, 0x0 for false). |
+| `HEX_TO_BOOL` | Convert a 0x-prefixed hex string to a boolean (0x1 is true, 0x0 is false). |
+
+## rpc (2)
+
+| Skill | Description |
+|-------|-------------|
+| `RAW_RPC_REQUEST` | Advanced escape-hatch: send a raw JSON-RPC request to the Pharos node and return the result. Use only when no dedicated skill exists. |
+| `RPC_HEALTH` | Check the configured Pharos RPC endpoint by timing a block-number request; returns reachability, latency, and the current block number. |
+
+## tokenlist (2)
+
+| Skill | Description |
+|-------|-------------|
+| `LIST_KNOWN_TOKENS` | Return the full registry of well-known tokens on Pharos, mapping symbol to address, decimals, and name. |
+| `RESOLVE_TOKEN` | Resolve a token symbol (case-insensitive) to its address, decimals, and name from the known-token registry. |
+
+## permit (2)
+
+| Skill | Description |
+|-------|-------------|
+| `ERC2612_NONCES` | Return the current ERC-2612 permit nonce for an owner on a token on Pharos. |
+| `ERC2612_DOMAIN_SEPARATOR` | Return the EIP-712 DOMAIN_SEPARATOR for an ERC-2612 token on Pharos. |
+
+## chainreg (2)
+
+| Skill | Description |
+|-------|-------------|
+| `LIST_KNOWN_CHAINS` | List the chains registered with Stoa, including id, name, native currency and default RPC URL. |
+| `CHAIN_BY_ID` | Look up a chain in the Stoa registry by its numeric id and return id, name and native currency. |
+
+## multibalance (2)
+
+| Skill | Description |
+|-------|-------------|
+| `NATIVE_BALANCES` | Return the native PHRS balance for each of several addresses on Pharos, formatted in PHRS. |
+| `TOKEN_BALANCES` | Return the ERC-20 balance of one token for each of several accounts on Pharos, formatted by decimals. |
+
+## memo (2)
+
+| Skill | Description |
+|-------|-------------|
+| `ENCODE_MEMO` | Encode a UTF-8 string into 0x-prefixed hex, suitable for use as transaction calldata or an on-chain memo. |
+| `DECODE_MEMO` | Decode 0x-prefixed hex (e.g. transaction calldata or an on-chain memo) back into a UTF-8 string. |
+
+## erc165 (3)
+
+| Skill | Description |
+|-------|-------------|
+| `SUPPORTS_INTERFACE` | Call ERC-165 supportsInterface(bytes4) on a contract and return whether it supports the given interface id. |
+| `IS_ERC721` | Detect whether a contract implements the ERC-721 interface (0x80ac58cd) via ERC-165 supportsInterface. |
+| `IS_ERC1155` | Detect whether a contract implements the ERC-1155 interface (0xd9b67a26) via ERC-165 supportsInterface. |
+
+## base64 (3)
+
+| Skill | Description |
+|-------|-------------|
+| `BASE64_ENCODE` | Encode UTF-8 text into a standard Base64 string. No network access. |
+| `BASE64_DECODE` | Decode a standard Base64 string into UTF-8 text. No network access. |
+| `BASE64URL_ENCODE` | Encode UTF-8 text into a URL-safe Base64 string (base64url). No network access. |
+
+## random (3)
+
+| Skill | Description |
+|-------|-------------|
+| `RANDOM_HEX` | Generate a 0x-prefixed hex string from Node crypto random bytes. Note: NOT intended to provide key-generation security guarantees beyond Node crypto. |
+| `RANDOM_UUID` | Generate a random RFC 4122 version 4 UUID using Node crypto. |
+| `RANDOM_BYTES` | Generate an array of random byte values (0-255) from Node crypto. |
+
+## duration (3)
+
+| Skill | Description |
+|-------|-------------|
+| `PARSE_DURATION` | Parse a compact duration string (d/h/m/s units) into total seconds. No network access. |
+| `HUMANIZE_SECONDS` | Convert a seconds count into a human-readable "1d 2h 3m 4s" string, omitting zero units. No network access. |
+| `FORMAT_COUNTDOWN` | Format a seconds count as a zero-padded "HH:MM:SS" string. Hours may exceed 99. No network access. |
+
+## pricemath (3)
+
+| Skill | Description |
+|-------|-------------|
+| `APPLY_BPS` | Compute amount * bps / 10000 using exact bigint math. No network access. |
+| `SLIPPAGE_MIN_OUT` | Compute amount * (10000 - slippageBps) / 10000 using exact bigint math. No network access. |
+| `PRICE_FROM_RESERVES` | Compute the spot price reserveOut / reserveIn as a decimal string with up to 8 fraction digits using exact bigint math. No network access. |
+
+## amm (3)
+
+| Skill | Description |
+|-------|-------------|
+| `AMOUNT_OUT` | Compute the Uniswap-v2 output amount for a given input and reserves (0.3% fee). No network access. |
+| `AMOUNT_IN` | Compute the Uniswap-v2 input amount required for a desired output and reserves (0.3% fee). No network access. |
+| `QUOTE` | Compute the Uniswap-v2 pro-rata equivalent amount of token B for a given amount of token A. No network access. |
+
+## vault4626 (4)
+
+| Skill | Description |
+|-------|-------------|
+| `PREVIEW_DEPOSIT` | Preview the number of ERC-4626 vault shares minted for depositing a given amount of underlying assets. |
+| `PREVIEW_MINT` | Preview the amount of underlying assets required to mint a given number of ERC-4626 vault shares. |
+| `MAX_WITHDRAW` | Return the maximum amount of underlying assets an owner can withdraw from an ERC-4626 vault. |
+| `VAULT_ASSET` | Return the address of the underlying asset token managed by an ERC-4626 vault. |
+
+## erc721enum (3)
+
+| Skill | Description |
+|-------|-------------|
+| `ERC721_TOTAL_SUPPLY` | Return the total supply of an ERC-721 Enumerable collection on Pharos. |
+| `TOKEN_BY_INDEX` | Return the token id at a global index of an ERC-721 Enumerable collection. |
+| `TOKEN_OF_OWNER_BY_INDEX` | Return the token id owned by an account at a per-owner index of an ERC-721 Enumerable collection. |
+
+## nodeinfo (3)
+
+| Skill | Description |
+|-------|-------------|
+| `CLIENT_VERSION` | Return the Pharos node's client software version string via the web3_clientVersion JSON-RPC method. |
+| `SYNC_STATUS` | Return the Pharos node's sync status via eth_syncing: false when fully synced, or an object describing sync progress. |
+| `CHAIN_ID_RPC` | Return the Pharos chain id straight from the node via the eth_chainId JSON-RPC method, as both the raw hex string and a parsed decimal number. |
+
+## permitsign (1)
+
+| Skill | Description |
+|-------|-------------|
+| `BUILD_PERMIT_TYPED_DATA` | Build the EIP-712 typed data object for an ERC-2612 Permit. Owner is the agent. Pure: no network access. |
