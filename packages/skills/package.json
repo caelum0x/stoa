@@ -1,0 +1,49 @@
+{
+  "name": "@stoa/skills",
+  "version": "0.1.0",
+  "description": "Stoa Skills — composable, Pharos Agent Kit-compatible commerce skills for AI agents.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./langchain": {
+      "types": "./dist/adapters/langchain.d.ts",
+      "import": "./dist/adapters/langchain.js"
+    },
+    "./vercel-ai": {
+      "types": "./dist/adapters/vercel-ai.d.ts",
+      "import": "./dist/adapters/vercel-ai.js"
+    },
+    "./mcp": {
+      "types": "./dist/adapters/mcp.d.ts",
+      "import": "./dist/adapters/mcp.js"
+    }
+  },
+  "files": ["dist", "README.md"],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "mcp": "tsx src/adapters/mcp.ts",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "viem": "^2.21.0",
+    "zod": "^3.23.8"
+  },
+  "optionalDependencies": {
+    "express": "^4.21.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0",
+    "vitest": "^2.1.0"
+  },
+  "license": "MIT"
+}

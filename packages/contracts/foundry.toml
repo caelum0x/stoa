@@ -1,0 +1,23 @@
+[profile.default]
+src = "src"
+test = "test"
+script = "script"
+out = "out"
+libs = ["lib"]
+solc = "0.8.24"
+optimizer = true
+optimizer_runs = 200
+evm_version = "cancun"
+gas_reports = ["StoaRegistry", "StoaEscrow", "ServiceRegistry"]
+
+[fmt]
+line_length = 110
+tab_width = 4
+bracket_spacing = true
+
+# Pharos endpoints (used via `--rpc-url pharos_atlantic`)
+[rpc_endpoints]
+pharos_atlantic = "https://atlantic.dplabs-internal.com/"
+
+[etherscan]
+# Pharos block explorer verification can be wired here once an API key is available.

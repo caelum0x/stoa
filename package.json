@@ -1,0 +1,20 @@
+{
+  "name": "stoa",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Stoa — the Agent Commerce Stack for Pharos. Composable Skills that let any agent get paid, pay other agents, prove identity, and settle work on-chain.",
+  "packageManager": "pnpm@11.3.0",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "pnpm -r build",
+    "typecheck": "pnpm -r typecheck",
+    "test": "pnpm -r test",
+    "mcp": "pnpm --filter @stoa/skills mcp",
+    "contracts:build": "forge build --root packages/contracts",
+    "contracts:test": "forge test --root packages/contracts -vv",
+    "contracts:deploy": "forge script packages/contracts/script/Deploy.s.sol:Deploy --root packages/contracts --rpc-url $PHAROS_RPC_URL --broadcast"
+  },
+  "license": "MIT"
+}

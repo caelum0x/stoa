@@ -1,0 +1,24 @@
+{
+  "name": "@stoa/examples",
+  "version": "0.1.0",
+  "description": "Runnable examples for each Stoa skill.",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "identity": "tsx src/01-register-identity.ts",
+    "monetize": "tsx src/02-monetize-and-pay.ts",
+    "escrow": "tsx src/03-escrow-job.ts",
+    "guard": "tsx src/04-treasury-guard.ts",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@stoa/skills": "workspace:*",
+    "viem": "^2.21.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0"
+  },
+  "license": "MIT"
+}
