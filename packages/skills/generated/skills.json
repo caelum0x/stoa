@@ -1,0 +1,1382 @@
+{
+  "totalSkills": 251,
+  "totalDomains": 62,
+  "domains": [
+    {
+      "domain": "commerce",
+      "count": 7,
+      "skills": [
+        {
+          "name": "X402_PAY",
+          "description": "Pay an x402-protected HTTP endpoint on Pharos and return its content."
+        },
+        {
+          "name": "X402_MONETIZE",
+          "description": "Expose content behind an x402 paywall on Pharos."
+        },
+        {
+          "name": "AGENT_IDENTITY",
+          "description": "Register, resolve, or update an agent identity in the StoaRegistry on Pharos."
+        },
+        {
+          "name": "REPUTATION",
+          "description": "Attest to an agent's reputation on Pharos (one attestation per address, no self-rating) or read its accumulated score from the StoaRegistry."
+        },
+        {
+          "name": "AGENT_ESCROW",
+          "description": "Manage milestone escrow on Pharos: lock funds for a job, release milestones to the worker, refund the remainder, or read job state."
+        },
+        {
+          "name": "TREASURY_GUARD",
+          "description": "Send PHRS or ERC-20 on Pharos through policy guards: recipient allowlist, per-tx ceiling, rolling 24h cap, and a pre-flight simulation."
+        },
+        {
+          "name": "SERVICE_LISTING",
+          "description": "List, update, and discover agent services on Pharos via the ServiceRegistry."
+        }
+      ]
+    },
+    {
+      "domain": "chain",
+      "count": 9,
+      "skills": [
+        {
+          "name": "GET_BLOCK_NUMBER",
+          "description": "Return the latest block number on the connected Pharos network."
+        },
+        {
+          "name": "GET_GAS_PRICE",
+          "description": "Return the current gas price on the connected Pharos network, in wei and gwei."
+        },
+        {
+          "name": "GET_NATIVE_BALANCE",
+          "description": "Return the native PHRS balance of an address (defaults to the agent's own address)."
+        },
+        {
+          "name": "GET_TX_STATUS",
+          "description": "Return whether a transaction succeeded, its block, and gas used on Pharos."
+        },
+        {
+          "name": "GET_NONCE",
+          "description": "Return the transaction count (nonce) for an address on Pharos."
+        },
+        {
+          "name": "GET_CHAIN_INFO",
+          "description": "Return the connected Pharos network's id, name, native currency, and RPC URL."
+        },
+        {
+          "name": "IS_CONTRACT",
+          "description": "Return whether an address is a contract (has bytecode) or an EOA on Pharos."
+        },
+        {
+          "name": "GET_BLOCK",
+          "description": "Return a summary of a Pharos block: timestamp, transaction count, gas used/limit."
+        },
+        {
+          "name": "ESTIMATE_GAS",
+          "description": "Estimate the gas required for a transaction from the agent on Pharos."
+        }
+      ]
+    },
+    {
+      "domain": "token",
+      "count": 6,
+      "skills": [
+        {
+          "name": "ERC20_BALANCE",
+          "description": "Return the ERC-20 balance of an account on Pharos, formatted by the token's decimals."
+        },
+        {
+          "name": "ERC20_TRANSFER",
+          "description": "Transfer ERC-20 tokens from the agent to a recipient on Pharos."
+        },
+        {
+          "name": "ERC20_APPROVE",
+          "description": "Approve a spender to transfer the agent's ERC-20 tokens on Pharos."
+        },
+        {
+          "name": "ERC20_ALLOWANCE",
+          "description": "Return the remaining ERC-20 allowance an owner has granted a spender on Pharos."
+        },
+        {
+          "name": "ERC20_METADATA",
+          "description": "Return an ERC-20 token's name, symbol, decimals, and total supply on Pharos."
+        },
+        {
+          "name": "ERC20_TRANSFER_FROM",
+          "description": "Transfer ERC-20 tokens from an approving owner to a recipient, using the agent's allowance."
+        }
+      ]
+    },
+    {
+      "domain": "native",
+      "count": 2,
+      "skills": [
+        {
+          "name": "NATIVE_TRANSFER",
+          "description": "Send native PHRS from the agent to a recipient on Pharos."
+        },
+        {
+          "name": "NATIVE_MULTISEND",
+          "description": "Send native PHRS to multiple recipients in sequence; returns a tx hash per payment."
+        }
+      ]
+    },
+    {
+      "domain": "wallet",
+      "count": 3,
+      "skills": [
+        {
+          "name": "GET_AGENT_ADDRESS",
+          "description": "Return the agent's own on-chain address and chain id."
+        },
+        {
+          "name": "SIGN_MESSAGE",
+          "description": "Sign a UTF-8 message with the agent's key (EIP-191)."
+        },
+        {
+          "name": "VERIFY_MESSAGE",
+          "description": "Recover the address that signed a message (EIP-191) and optionally compare it to an expected signer."
+        }
+      ]
+    },
+    {
+      "domain": "nft",
+      "count": 9,
+      "skills": [
+        {
+          "name": "ERC721_OWNER_OF",
+          "description": "Return the owner address of a specific ERC-721 token on Pharos."
+        },
+        {
+          "name": "ERC721_BALANCE",
+          "description": "Return the number of ERC-721 tokens an owner holds in a collection on Pharos."
+        },
+        {
+          "name": "ERC721_TOKEN_URI",
+          "description": "Return the tokenURI (metadata location) of a specific ERC-721 token on Pharos."
+        },
+        {
+          "name": "ERC721_METADATA",
+          "description": "Return the name and symbol of an ERC-721 collection on Pharos."
+        },
+        {
+          "name": "ERC721_TRANSFER",
+          "description": "Safely transfer an ERC-721 token from the agent to a recipient on Pharos."
+        },
+        {
+          "name": "ERC721_APPROVE",
+          "description": "Approve an address to transfer a specific ERC-721 token owned by the agent on Pharos."
+        },
+        {
+          "name": "ERC721_SET_APPROVAL_FOR_ALL",
+          "description": "Grant or revoke an operator's approval over all of the agent's ERC-721 tokens in a collection on Pharos."
+        },
+        {
+          "name": "ERC721_IS_APPROVED_FOR_ALL",
+          "description": "Check whether an operator is approved for all of an owner's ERC-721 tokens in a collection on Pharos."
+        },
+        {
+          "name": "ERC721_GET_APPROVED",
+          "description": "Return the address approved to transfer a specific ERC-721 token on Pharos."
+        }
+      ]
+    },
+    {
+      "domain": "erc1155",
+      "count": 6,
+      "skills": [
+        {
+          "name": "ERC1155_BALANCE",
+          "description": "Return the ERC-1155 balance of a given token id for an account on Pharos."
+        },
+        {
+          "name": "ERC1155_BALANCE_BATCH",
+          "description": "Return ERC-1155 balances for paired accounts and ids via balanceOfBatch on Pharos."
+        },
+        {
+          "name": "ERC1155_URI",
+          "description": "Return the metadata URI for an ERC-1155 token id on Pharos."
+        },
+        {
+          "name": "ERC1155_IS_APPROVED_FOR_ALL",
+          "description": "Return whether an operator is approved for all of an owner's ERC-1155 tokens on Pharos."
+        },
+        {
+          "name": "ERC1155_SET_APPROVAL_FOR_ALL",
+          "description": "Grant or revoke operator approval for all of the agent's ERC-1155 tokens on Pharos."
+        },
+        {
+          "name": "ERC1155_SAFE_TRANSFER",
+          "description": "Transfer an amount of an ERC-1155 token id from the agent to a recipient on Pharos."
+        }
+      ]
+    },
+    {
+      "domain": "contract",
+      "count": 5,
+      "skills": [
+        {
+          "name": "CONTRACT_READ",
+          "description": "Read from any contract by calling a view/pure function with a supplied ABI."
+        },
+        {
+          "name": "CONTRACT_WRITE",
+          "description": "Send a state-changing transaction to any contract using a supplied ABI; waits for the receipt."
+        },
+        {
+          "name": "CONTRACT_SIMULATE",
+          "description": "Simulate a contract call from the agent's account without broadcasting, returning the would-be result."
+        },
+        {
+          "name": "GET_STORAGE_AT",
+          "description": "Read the raw 32-byte value stored at a contract storage slot."
+        },
+        {
+          "name": "CONTRACT_MULTICALL",
+          "description": "Aggregate many contract view calls into a single multicall, returning each result (allowing failures)."
+        }
+      ]
+    },
+    {
+      "domain": "utils",
+      "count": 10,
+      "skills": [
+        {
+          "name": "IS_ADDRESS",
+          "description": "Return whether the given string is a valid EVM (0x) address."
+        },
+        {
+          "name": "CHECKSUM_ADDRESS",
+          "description": "Convert an EVM address to its EIP-55 checksummed representation."
+        },
+        {
+          "name": "KECCAK256",
+          "description": "Compute the keccak-256 hash of hex data (0x-prefixed) or a UTF-8 string."
+        },
+        {
+          "name": "TO_HEX",
+          "description": "Encode a value to 0x-prefixed hex."
+        },
+        {
+          "name": "FROM_HEX",
+          "description": "Decode a 0x-prefixed hex value into a string, number, or bigint."
+        },
+        {
+          "name": "PARSE_UNITS",
+          "description": "Convert a human-readable decimal amount into base units given a decimals count."
+        },
+        {
+          "name": "FORMAT_UNITS",
+          "description": "Convert a base-unit integer string into a human-readable decimal amount given a decimals count."
+        },
+        {
+          "name": "NAMEHASH",
+          "description": "Compute the ENS namehash (node) for a dotted name."
+        },
+        {
+          "name": "STRING_TO_HEX",
+          "description": "Encode a UTF-8 string into its 0x-prefixed hex representation."
+        },
+        {
+          "name": "HEX_TO_STRING",
+          "description": "Decode a 0x-prefixed hex value into its UTF-8 string representation."
+        }
+      ]
+    },
+    {
+      "domain": "encoding",
+      "count": 6,
+      "skills": [
+        {
+          "name": "ENCODE_ABI_PARAMETERS",
+          "description": "ABI-encode a list of values against parameter types and return the hex data."
+        },
+        {
+          "name": "DECODE_ABI_PARAMETERS",
+          "description": "Decode ABI-encoded hex data against parameter types; bigint values become strings."
+        },
+        {
+          "name": "FUNCTION_SELECTOR",
+          "description": "Compute the 4-byte function selector for a Solidity function signature."
+        },
+        {
+          "name": "EVENT_TOPIC",
+          "description": "Compute the topic0 (keccak256) hash for a Solidity event signature."
+        },
+        {
+          "name": "ENCODE_FUNCTION_DATA",
+          "description": "Encode calldata (selector + args) for a function call given an ABI and arguments."
+        },
+        {
+          "name": "DECODE_FUNCTION_DATA",
+          "description": "Decode calldata against an ABI into the matched function name and arguments; bigints become strings."
+        }
+      ]
+    },
+    {
+      "domain": "defi",
+      "count": 6,
+      "skills": [
+        {
+          "name": "PRICE_FEED_READ",
+          "description": "Read the latest price from a Chainlink-style AggregatorV3 feed, formatted by its decimals."
+        },
+        {
+          "name": "ERC4626_TOTAL_ASSETS",
+          "description": "Return the total amount of underlying assets managed by an ERC-4626 vault."
+        },
+        {
+          "name": "ERC4626_CONVERT_TO_ASSETS",
+          "description": "Convert a given amount of ERC-4626 vault shares to the equivalent underlying assets."
+        },
+        {
+          "name": "ERC4626_CONVERT_TO_SHARES",
+          "description": "Convert a given amount of underlying assets to the equivalent ERC-4626 vault shares."
+        },
+        {
+          "name": "ERC4626_PREVIEW_REDEEM",
+          "description": "Preview the amount of underlying assets returned for redeeming a given number of ERC-4626 vault shares."
+        },
+        {
+          "name": "UNIV2_RESERVES",
+          "description": "Read the reserves and token0/token1 addresses of a UniswapV2-style liquidity pair."
+        }
+      ]
+    },
+    {
+      "domain": "portfolio",
+      "count": 2,
+      "skills": [
+        {
+          "name": "PORTFOLIO",
+          "description": "Return the native PHRS balance and formatted balances for a list of ERC-20 tokens."
+        },
+        {
+          "name": "TOKEN_HOLDINGS",
+          "description": "Return the native PHRS balance and only the ERC-20 tokens with a nonzero balance."
+        }
+      ]
+    },
+    {
+      "domain": "explorer",
+      "count": 4,
+      "skills": [
+        {
+          "name": "EXPLORER_TX_URL",
+          "description": "Build the block explorer URL for a transaction hash on the connected Pharos network."
+        },
+        {
+          "name": "EXPLORER_ADDRESS_URL",
+          "description": "Build the block explorer URL for an address on the connected Pharos network."
+        },
+        {
+          "name": "EXPLORER_BLOCK_URL",
+          "description": "Build the block explorer URL for a block number on the connected Pharos network."
+        },
+        {
+          "name": "EXPLORER_TOKEN_URL",
+          "description": "Build the block explorer URL for a token contract on the connected Pharos network."
+        }
+      ]
+    },
+    {
+      "domain": "social",
+      "count": 8,
+      "skills": [
+        {
+          "name": "SOCIAL_POST",
+          "description": "Publish a new post to the Pharos social feed and return its post id."
+        },
+        {
+          "name": "SOCIAL_REPLY",
+          "description": "Reply to an existing post on the Pharos social feed."
+        },
+        {
+          "name": "SOCIAL_LIKE",
+          "description": "Like a post on the Pharos social feed."
+        },
+        {
+          "name": "SOCIAL_FOLLOW",
+          "description": "Follow another account on the Pharos social feed."
+        },
+        {
+          "name": "SOCIAL_UNFOLLOW",
+          "description": "Unfollow an account on the Pharos social feed."
+        },
+        {
+          "name": "SOCIAL_GET_POST",
+          "description": "Read a single post from the Pharos social feed by its id."
+        },
+        {
+          "name": "SOCIAL_POSTS_BY_AUTHOR",
+          "description": "List the post ids authored by an account on the Pharos social feed."
+        },
+        {
+          "name": "SOCIAL_FOLLOW_INFO",
+          "description": "Return the follower and following counts for an account on the Pharos social feed."
+        }
+      ]
+    },
+    {
+      "domain": "tip",
+      "count": 3,
+      "skills": [
+        {
+          "name": "TIP_SEND",
+          "description": "Send a native PHRS tip to a recipient through the TipJar contract, with an optional memo."
+        },
+        {
+          "name": "TIP_WITHDRAW",
+          "description": "Withdraw all native PHRS tips accumulated for the agent in the TipJar contract."
+        },
+        {
+          "name": "TIP_STATS",
+          "description": "Read TipJar stats for an account: withdrawable balance, total received, and total given, all in PHRS."
+        }
+      ]
+    },
+    {
+      "domain": "stream",
+      "count": 5,
+      "skills": [
+        {
+          "name": "STREAM_CREATE",
+          "description": "Create a native PHRS payment stream that linearly vests from start to stop on Pharos."
+        },
+        {
+          "name": "STREAM_WITHDRAW",
+          "description": "Withdraw an amount of vested native PHRS from an existing payment stream on Pharos."
+        },
+        {
+          "name": "STREAM_CANCEL",
+          "description": "Cancel a native PHRS payment stream on Pharos, settling vested and unvested balances."
+        },
+        {
+          "name": "STREAM_GET",
+          "description": "Read a payment stream's sender, recipient, token, deposit, withdrawn, window, and cancelled flag on Pharos."
+        },
+        {
+          "name": "STREAM_WITHDRAWABLE",
+          "description": "Read the currently withdrawable and total streamed PHRS amounts for a payment stream on Pharos."
+        }
+      ]
+    },
+    {
+      "domain": "events",
+      "count": 3,
+      "skills": [
+        {
+          "name": "EVENTS_GET_LOGS",
+          "description": "Fetch raw event logs on Pharos, optionally filtered by contract address and block range."
+        },
+        {
+          "name": "EVENTS_PARSE_RECEIPT",
+          "description": "Fetch a transaction receipt on Pharos and decode its event logs using the provided ABI."
+        },
+        {
+          "name": "EVENTS_BY_CONTRACT",
+          "description": "Fetch and decode events of a given name emitted by a contract on Pharos."
+        }
+      ]
+    },
+    {
+      "domain": "math",
+      "count": 8,
+      "skills": [
+        {
+          "name": "MATH_ADD",
+          "description": "Add two integer strings using bigint arithmetic."
+        },
+        {
+          "name": "MATH_SUB",
+          "description": "Subtract b from a using bigint arithmetic."
+        },
+        {
+          "name": "MATH_MUL",
+          "description": "Multiply two integer strings using bigint arithmetic."
+        },
+        {
+          "name": "MATH_DIV",
+          "description": "Integer-divide a by b using bigint arithmetic."
+        },
+        {
+          "name": "MATH_MIN",
+          "description": "Return the minimum of a list of integer strings using bigint arithmetic."
+        },
+        {
+          "name": "MATH_MAX",
+          "description": "Return the maximum of a list of integer strings using bigint arithmetic."
+        },
+        {
+          "name": "MATH_COMPARE",
+          "description": "Compare a and b: returns -1 if a<b, 0 if equal, 1 if a>b."
+        },
+        {
+          "name": "MATH_PERCENT_OF",
+          "description": "Compute (value * percent / 100) using bigint integer arithmetic."
+        }
+      ]
+    },
+    {
+      "domain": "format",
+      "count": 5,
+      "skills": [
+        {
+          "name": "FORMAT_TOKEN_AMOUNT",
+          "description": "Format a base-unit token amount into a human-readable decimal string, optionally suffixed with a symbol."
+        },
+        {
+          "name": "FORMAT_SHORT_ADDRESS",
+          "description": "Shorten a 0x address to its first 6 and last 4 characters joined by an ellipsis."
+        },
+        {
+          "name": "FORMAT_DURATION",
+          "description": "Convert a whole-second duration into a compact human string such as \"1h 2m 3s\"."
+        },
+        {
+          "name": "FORMAT_TIMESTAMP",
+          "description": "Convert a Unix timestamp in seconds to an ISO 8601 UTC date-time string."
+        },
+        {
+          "name": "FORMAT_GWEI",
+          "description": "Format a wei amount into a gwei decimal string, useful for displaying gas prices."
+        }
+      ]
+    },
+    {
+      "domain": "validate",
+      "count": 5,
+      "skills": [
+        {
+          "name": "VALIDATE_IS_HEX",
+          "description": "Pure validator: returns whether the given value is a valid 0x-prefixed hex string."
+        },
+        {
+          "name": "VALIDATE_IS_TX_HASH",
+          "description": "Pure validator: returns whether the given value is a 0x-prefixed 32-byte transaction hash."
+        },
+        {
+          "name": "VALIDATE_IS_ADDRESS",
+          "description": "Pure validator: returns whether the given value is a valid EVM address per viem isAddress."
+        },
+        {
+          "name": "VALIDATE_IS_UINT",
+          "description": "Pure validator: returns whether the given value is a non-negative integer string (uint)."
+        },
+        {
+          "name": "VALIDATE_IS_CHECKSUM",
+          "description": "Pure validator: returns whether the given address is a correctly EIP-55 checksummed address."
+        }
+      ]
+    },
+    {
+      "domain": "keys",
+      "count": 2,
+      "skills": [
+        {
+          "name": "KEY_GENERATE_PRIVATE_KEY",
+          "description": "Generate a fresh random private key and its derived address."
+        },
+        {
+          "name": "KEY_ADDRESS_FROM_PRIVATE_KEY",
+          "description": "Derive the EVM address corresponding to a given private key."
+        }
+      ]
+    },
+    {
+      "domain": "typeddata",
+      "count": 3,
+      "skills": [
+        {
+          "name": "SIGN_TYPED_DATA",
+          "description": "Sign an EIP-712 typed-data payload with the agent's wallet and return the signature."
+        },
+        {
+          "name": "HASH_TYPED_DATA",
+          "description": "Compute the EIP-712 struct hash (digest) of a typed-data payload without signing."
+        },
+        {
+          "name": "HASH_MESSAGE",
+          "description": "Compute the EIP-191 personal-sign hash of a plain string message."
+        }
+      ]
+    },
+    {
+      "domain": "txops",
+      "count": 3,
+      "skills": [
+        {
+          "name": "GET_TRANSACTION",
+          "description": "Fetch a transaction by hash on Pharos and return sender, recipient, value, nonce, and block."
+        },
+        {
+          "name": "SEND_RAW_TX",
+          "description": "Send a raw native PHRS transaction with optional value and calldata, then wait for the receipt."
+        },
+        {
+          "name": "WAIT_FOR_TX",
+          "description": "Wait for a transaction receipt on Pharos and return its status, block, and gas used."
+        }
+      ]
+    },
+    {
+      "domain": "faucet",
+      "count": 3,
+      "skills": [
+        {
+          "name": "FAUCET_DRIP",
+          "description": "Claim native PHRS from the Pharos testnet faucet (subject to its cooldown)."
+        },
+        {
+          "name": "FAUCET_FUND",
+          "description": "Deposit native PHRS into the Pharos testnet faucet so others can drip."
+        },
+        {
+          "name": "FAUCET_STATUS",
+          "description": "Report the faucet's drip amount, cooldown, and the next drip time for an account."
+        }
+      ]
+    },
+    {
+      "domain": "discovery",
+      "count": 2,
+      "skills": [
+        {
+          "name": "AGENT_DISCOVERY",
+          "description": "Discover agents registered on StoaRegistry by scanning AgentRegistered events on Pharos."
+        },
+        {
+          "name": "SERVICE_DISCOVERY",
+          "description": "Discover services listed on ServiceRegistry by scanning ServiceListed events on Pharos."
+        }
+      ]
+    },
+    {
+      "domain": "abitools",
+      "count": 6,
+      "skills": [
+        {
+          "name": "PARSE_ABI",
+          "description": "Convert an array of human-readable ABI signatures into a structured JSON ABI."
+        },
+        {
+          "name": "PARSE_ABI_ITEM",
+          "description": "Convert one human-readable ABI signature into a structured JSON ABI item."
+        },
+        {
+          "name": "FORMAT_ABI_ITEM",
+          "description": "Convert a JSON ABI item (as a JSON string) into its human-readable signature."
+        },
+        {
+          "name": "GET_ABI_ITEM",
+          "description": "Retrieve a named function, event, or error item from a JSON ABI array."
+        },
+        {
+          "name": "EXTRACT_FUNCTIONS",
+          "description": "List all function names and human-readable signatures contained in a JSON ABI."
+        },
+        {
+          "name": "EXTRACT_EVENTS",
+          "description": "List all event names contained in a JSON ABI."
+        }
+      ]
+    },
+    {
+      "domain": "hashing",
+      "count": 4,
+      "skills": [
+        {
+          "name": "SHA256_HASH",
+          "description": "Compute the SHA-256 hash of hex data (0x-prefixed) or a UTF-8 string."
+        },
+        {
+          "name": "RIPEMD160_HASH",
+          "description": "Compute the RIPEMD-160 hash of hex data (0x-prefixed) or a UTF-8 string."
+        },
+        {
+          "name": "KECCAK_STRING",
+          "description": "Compute the keccak-256 hash of a UTF-8 string (encoded to hex first)."
+        },
+        {
+          "name": "ID_HASH",
+          "description": "Compute keccak-256 of a function or event signature string (the event topic / function id)."
+        }
+      ]
+    },
+    {
+      "domain": "units",
+      "count": 5,
+      "skills": [
+        {
+          "name": "ETHER_TO_WEI",
+          "description": "Convert a decimal ether amount (18 decimals) into its wei base-unit integer string."
+        },
+        {
+          "name": "WEI_TO_ETHER",
+          "description": "Convert a wei base-unit integer string into its decimal ether representation (18 decimals)."
+        },
+        {
+          "name": "GWEI_TO_WEI",
+          "description": "Convert a decimal gwei amount (9 decimals) into its wei base-unit integer string."
+        },
+        {
+          "name": "WEI_TO_GWEI",
+          "description": "Convert a wei base-unit integer string into its decimal gwei representation (9 decimals)."
+        },
+        {
+          "name": "CONVERT_UNITS",
+          "description": "Re-denominate an integer base-unit value from one decimals scale to another, returning base units in the target decimals."
+        }
+      ]
+    },
+    {
+      "domain": "bytes",
+      "count": 7,
+      "skills": [
+        {
+          "name": "HEX_TO_BYTES",
+          "description": "Decode a 0x-prefixed hex string into an array of byte values (0-255)."
+        },
+        {
+          "name": "BYTES_TO_HEX",
+          "description": "Encode an array of byte values (0-255) into a 0x-prefixed hex string."
+        },
+        {
+          "name": "CONCAT_HEX",
+          "description": "Concatenate multiple 0x-prefixed hex strings into a single hex string."
+        },
+        {
+          "name": "PAD_HEX",
+          "description": "Pad a 0x-prefixed hex string with zero bytes to a target size, left or right."
+        },
+        {
+          "name": "SIZE_OF",
+          "description": "Return the length in bytes of a 0x-prefixed hex string."
+        },
+        {
+          "name": "SLICE_HEX",
+          "description": "Extract a byte range [start, end) from a 0x-prefixed hex string."
+        },
+        {
+          "name": "TRIM_HEX",
+          "description": "Strip leading zero bytes from a 0x-prefixed hex string."
+        }
+      ]
+    },
+    {
+      "domain": "account",
+      "count": 3,
+      "skills": [
+        {
+          "name": "GET_BYTECODE",
+          "description": "Return the deployed runtime bytecode at an address on Pharos, plus its hex length."
+        },
+        {
+          "name": "GET_CODE_SIZE",
+          "description": "Return the size in bytes of the deployed bytecode at an address on Pharos."
+        },
+        {
+          "name": "IS_EOA",
+          "description": "Determine whether an address is an EOA (no deployed bytecode) or a contract on Pharos."
+        }
+      ]
+    },
+    {
+      "domain": "time",
+      "count": 4,
+      "skills": [
+        {
+          "name": "UNIX_NOW",
+          "description": "Return the current local wall-clock time as a UNIX timestamp in seconds."
+        },
+        {
+          "name": "SECONDS_UNTIL",
+          "description": "Return the number of seconds from now until a target UNIX timestamp."
+        },
+        {
+          "name": "CHAIN_TIME",
+          "description": "Return the timestamp of the latest block on the connected Pharos network as a UNIX timestamp in seconds."
+        },
+        {
+          "name": "FORMAT_RELATIVE",
+          "description": "Format a target UNIX timestamp as a human relative phrase versus now, e.g."
+        }
+      ]
+    },
+    {
+      "domain": "agentcard",
+      "count": 2,
+      "skills": [
+        {
+          "name": "BUILD_AGENT_CARD",
+          "description": "Compose an agent card JSON object (name, description, capabilities, endpoint, agent address) and a data: URI encoding it."
+        },
+        {
+          "name": "PARSE_AGENT_CARD",
+          "description": "Decode a \"data:application/json,\" agent card URI back into its JSON object."
+        }
+      ]
+    },
+    {
+      "domain": "siwe",
+      "count": 2,
+      "skills": [
+        {
+          "name": "BUILD_AUTH_MESSAGE",
+          "description": "Build a Sign-In With Ethereum style plaintext message for the agent's address on Pharos."
+        },
+        {
+          "name": "SIGN_AUTH_MESSAGE",
+          "description": "Sign a SIWE-like plaintext message with the agent's wallet and return the signature."
+        }
+      ]
+    },
+    {
+      "domain": "gas",
+      "count": 4,
+      "skills": [
+        {
+          "name": "ESTIMATE_FEES",
+          "description": "Estimate EIP-1559 gas fees on Pharos: maxFeePerGas and maxPriorityFeePerGas, in wei and gwei."
+        },
+        {
+          "name": "MAX_PRIORITY_FEE",
+          "description": "Estimate the current max priority fee per gas (tip) on Pharos, in wei and gwei."
+        },
+        {
+          "name": "BASE_FEE",
+          "description": "Return the base fee per gas of the latest Pharos block, in wei and gwei (or null if unavailable)."
+        },
+        {
+          "name": "TX_FEE_ESTIMATE",
+          "description": "Estimate the total fee for a native PHRS transfer by multiplying estimated gas by the gas price; returns the fee in PHRS."
+        }
+      ]
+    },
+    {
+      "domain": "blocks",
+      "count": 3,
+      "skills": [
+        {
+          "name": "GET_BLOCK_BY_HASH",
+          "description": "Return a summary of a Pharos block identified by its hash: number, timestamp, and transaction count."
+        },
+        {
+          "name": "BLOCK_TX_COUNT",
+          "description": "Return the number of transactions in a Pharos block, by number or the latest block."
+        },
+        {
+          "name": "LATEST_BLOCKS",
+          "description": "Return summaries (number, timestamp, transaction count) of the most recent N Pharos blocks."
+        }
+      ]
+    },
+    {
+      "domain": "simulate",
+      "count": 3,
+      "skills": [
+        {
+          "name": "RAW_CALL",
+          "description": "Simulate a low-level call (eth_call) with raw calldata and return the returned 0x bytes."
+        },
+        {
+          "name": "ESTIMATE_CONTRACT_GAS",
+          "description": "Estimate the gas required to execute a contract function call against Pharos."
+        },
+        {
+          "name": "PREPARE_TX",
+          "description": "Prepare a transaction request on Pharos and return its gas, fee, and nonce fields."
+        }
+      ]
+    },
+    {
+      "domain": "addressutils",
+      "count": 4,
+      "skills": [
+        {
+          "name": "IS_ZERO_ADDRESS",
+          "description": "Return whether the given address equals the EVM zero address (0x0000...0000)."
+        },
+        {
+          "name": "ADDRESS_EQUAL",
+          "description": "Return whether two EVM addresses are equal, ignoring checksum casing."
+        },
+        {
+          "name": "COMPUTE_CONTRACT_ADDRESS",
+          "description": "Compute the contract address a CREATE deployment would produce from a deployer address and nonce."
+        },
+        {
+          "name": "COMPUTE_CREATE2_ADDRESS",
+          "description": "Compute the deterministic CREATE2 contract address from a deployer, salt, and init code hash."
+        }
+      ]
+    },
+    {
+      "domain": "sigutils",
+      "count": 4,
+      "skills": [
+        {
+          "name": "PARSE_SIGNATURE",
+          "description": "Parse a 0x-prefixed hex signature into its r, s, and v / yParity components."
+        },
+        {
+          "name": "SERIALIZE_SIGNATURE",
+          "description": "Serialize r, s, and yParity components into a single 0x-prefixed hex signature."
+        },
+        {
+          "name": "RECOVER_PUBLIC_KEY",
+          "description": "Recover the public key that produced a signature over a given hash."
+        },
+        {
+          "name": "RECOVER_TYPED_DATA_ADDRESS",
+          "description": "Recover the signer address from an EIP-712 typed-data signature."
+        }
+      ]
+    },
+    {
+      "domain": "convert",
+      "count": 5,
+      "skills": [
+        {
+          "name": "HEX_TO_NUMBER",
+          "description": "Convert a 0x-prefixed hex string to a decimal number."
+        },
+        {
+          "name": "NUMBER_TO_HEX",
+          "description": "Convert an integer to a 0x-prefixed hex string, optionally padded to a byte size."
+        },
+        {
+          "name": "HEX_TO_BIGINT",
+          "description": "Convert a 0x-prefixed hex string to a big integer, returned as a decimal string."
+        },
+        {
+          "name": "BOOL_TO_HEX",
+          "description": "Convert a boolean to a 0x-prefixed hex string (0x1 for true, 0x0 for false)."
+        },
+        {
+          "name": "HEX_TO_BOOL",
+          "description": "Convert a 0x-prefixed hex string to a boolean (0x1 is true, 0x0 is false)."
+        }
+      ]
+    },
+    {
+      "domain": "rpc",
+      "count": 2,
+      "skills": [
+        {
+          "name": "RAW_RPC_REQUEST",
+          "description": "Advanced escape-hatch: send a raw JSON-RPC request to the Pharos node and return the result."
+        },
+        {
+          "name": "RPC_HEALTH",
+          "description": "Check the configured Pharos RPC endpoint by timing a block-number request; returns reachability, latency, and the current block number."
+        }
+      ]
+    },
+    {
+      "domain": "tokenlist",
+      "count": 2,
+      "skills": [
+        {
+          "name": "LIST_KNOWN_TOKENS",
+          "description": "Return the full registry of well-known tokens on Pharos, mapping symbol to address, decimals, and name."
+        },
+        {
+          "name": "RESOLVE_TOKEN",
+          "description": "Resolve a token symbol (case-insensitive) to its address, decimals, and name from the known-token registry."
+        }
+      ]
+    },
+    {
+      "domain": "permit",
+      "count": 2,
+      "skills": [
+        {
+          "name": "ERC2612_NONCES",
+          "description": "Return the current ERC-2612 permit nonce for an owner on a token on Pharos."
+        },
+        {
+          "name": "ERC2612_DOMAIN_SEPARATOR",
+          "description": "Return the EIP-712 DOMAIN_SEPARATOR for an ERC-2612 token on Pharos."
+        }
+      ]
+    },
+    {
+      "domain": "chainreg",
+      "count": 2,
+      "skills": [
+        {
+          "name": "LIST_KNOWN_CHAINS",
+          "description": "List the chains registered with Stoa, including id, name, native currency and default RPC URL."
+        },
+        {
+          "name": "CHAIN_BY_ID",
+          "description": "Look up a chain in the Stoa registry by its numeric id and return id, name and native currency."
+        }
+      ]
+    },
+    {
+      "domain": "multibalance",
+      "count": 2,
+      "skills": [
+        {
+          "name": "NATIVE_BALANCES",
+          "description": "Return the native PHRS balance for each of several addresses on Pharos, formatted in PHRS."
+        },
+        {
+          "name": "TOKEN_BALANCES",
+          "description": "Return the ERC-20 balance of one token for each of several accounts on Pharos, formatted by decimals."
+        }
+      ]
+    },
+    {
+      "domain": "memo",
+      "count": 2,
+      "skills": [
+        {
+          "name": "ENCODE_MEMO",
+          "description": "Encode a UTF-8 string into 0x-prefixed hex, suitable for use as transaction calldata or an on-chain memo."
+        },
+        {
+          "name": "DECODE_MEMO",
+          "description": "Decode 0x-prefixed hex (e.g."
+        }
+      ]
+    },
+    {
+      "domain": "erc165",
+      "count": 3,
+      "skills": [
+        {
+          "name": "SUPPORTS_INTERFACE",
+          "description": "Call ERC-165 supportsInterface(bytes4) on a contract and return whether it supports the given interface id."
+        },
+        {
+          "name": "IS_ERC721",
+          "description": "Detect whether a contract implements the ERC-721 interface (0x80ac58cd) via ERC-165 supportsInterface."
+        },
+        {
+          "name": "IS_ERC1155",
+          "description": "Detect whether a contract implements the ERC-1155 interface (0xd9b67a26) via ERC-165 supportsInterface."
+        }
+      ]
+    },
+    {
+      "domain": "base64",
+      "count": 3,
+      "skills": [
+        {
+          "name": "BASE64_ENCODE",
+          "description": "Encode UTF-8 text into a standard Base64 string."
+        },
+        {
+          "name": "BASE64_DECODE",
+          "description": "Decode a standard Base64 string into UTF-8 text."
+        },
+        {
+          "name": "BASE64URL_ENCODE",
+          "description": "Encode UTF-8 text into a URL-safe Base64 string (base64url)."
+        }
+      ]
+    },
+    {
+      "domain": "random",
+      "count": 3,
+      "skills": [
+        {
+          "name": "RANDOM_HEX",
+          "description": "Generate a 0x-prefixed hex string from Node crypto random bytes."
+        },
+        {
+          "name": "RANDOM_UUID",
+          "description": "Generate a random RFC 4122 version 4 UUID using Node crypto."
+        },
+        {
+          "name": "RANDOM_BYTES",
+          "description": "Generate an array of random byte values (0-255) from Node crypto."
+        }
+      ]
+    },
+    {
+      "domain": "duration",
+      "count": 3,
+      "skills": [
+        {
+          "name": "PARSE_DURATION",
+          "description": "Parse a compact duration string (d/h/m/s units) into total seconds."
+        },
+        {
+          "name": "HUMANIZE_SECONDS",
+          "description": "Convert a seconds count into a human-readable \"1d 2h 3m 4s\" string, omitting zero units."
+        },
+        {
+          "name": "FORMAT_COUNTDOWN",
+          "description": "Format a seconds count as a zero-padded \"HH:MM:SS\" string."
+        }
+      ]
+    },
+    {
+      "domain": "pricemath",
+      "count": 3,
+      "skills": [
+        {
+          "name": "APPLY_BPS",
+          "description": "Compute amount * bps / 10000 using exact bigint math."
+        },
+        {
+          "name": "SLIPPAGE_MIN_OUT",
+          "description": "Compute amount * (10000 - slippageBps) / 10000 using exact bigint math."
+        },
+        {
+          "name": "PRICE_FROM_RESERVES",
+          "description": "Compute the spot price reserveOut / reserveIn as a decimal string with up to 8 fraction digits using exact bigint math."
+        }
+      ]
+    },
+    {
+      "domain": "amm",
+      "count": 3,
+      "skills": [
+        {
+          "name": "AMOUNT_OUT",
+          "description": "Compute the Uniswap-v2 output amount for a given input and reserves (0.3% fee)."
+        },
+        {
+          "name": "AMOUNT_IN",
+          "description": "Compute the Uniswap-v2 input amount required for a desired output and reserves (0.3% fee)."
+        },
+        {
+          "name": "QUOTE",
+          "description": "Compute the Uniswap-v2 pro-rata equivalent amount of token B for a given amount of token A."
+        }
+      ]
+    },
+    {
+      "domain": "vault4626",
+      "count": 4,
+      "skills": [
+        {
+          "name": "PREVIEW_DEPOSIT",
+          "description": "Preview the number of ERC-4626 vault shares minted for depositing a given amount of underlying assets."
+        },
+        {
+          "name": "PREVIEW_MINT",
+          "description": "Preview the amount of underlying assets required to mint a given number of ERC-4626 vault shares."
+        },
+        {
+          "name": "MAX_WITHDRAW",
+          "description": "Return the maximum amount of underlying assets an owner can withdraw from an ERC-4626 vault."
+        },
+        {
+          "name": "VAULT_ASSET",
+          "description": "Return the address of the underlying asset token managed by an ERC-4626 vault."
+        }
+      ]
+    },
+    {
+      "domain": "erc721enum",
+      "count": 3,
+      "skills": [
+        {
+          "name": "ERC721_TOTAL_SUPPLY",
+          "description": "Return the total supply of an ERC-721 Enumerable collection on Pharos."
+        },
+        {
+          "name": "TOKEN_BY_INDEX",
+          "description": "Return the token id at a global index of an ERC-721 Enumerable collection."
+        },
+        {
+          "name": "TOKEN_OF_OWNER_BY_INDEX",
+          "description": "Return the token id owned by an account at a per-owner index of an ERC-721 Enumerable collection."
+        }
+      ]
+    },
+    {
+      "domain": "nodeinfo",
+      "count": 3,
+      "skills": [
+        {
+          "name": "CLIENT_VERSION",
+          "description": "Return the Pharos node's client software version string via the web3_clientVersion JSON-RPC method."
+        },
+        {
+          "name": "SYNC_STATUS",
+          "description": "Return the Pharos node's sync status via eth_syncing: false when fully synced, or an object describing sync progress."
+        },
+        {
+          "name": "CHAIN_ID_RPC",
+          "description": "Return the Pharos chain id straight from the node via the eth_chainId JSON-RPC method, as both the raw hex string and a parsed decimal number."
+        }
+      ]
+    },
+    {
+      "domain": "permitsign",
+      "count": 1,
+      "skills": [
+        {
+          "name": "BUILD_PERMIT_TYPED_DATA",
+          "description": "Build the EIP-712 typed data object for an ERC-2612 Permit."
+        }
+      ]
+    },
+    {
+      "domain": "sessionkey",
+      "count": 6,
+      "skills": [
+        {
+          "name": "SESSION_DEPOSIT",
+          "description": "Deposit native PHRS into the SessionKeyManager so authorized session keys can spend against it."
+        },
+        {
+          "name": "SESSION_AUTHORIZE",
+          "description": "Authorize a session key to spend up to a PHRS cap until a given expiry through the SessionKeyManager."
+        },
+        {
+          "name": "SESSION_REVOKE",
+          "description": "Revoke a previously authorized session key so it can no longer spend through the SessionKeyManager."
+        },
+        {
+          "name": "SESSION_SPEND",
+          "description": "As an authorized session key, spend an owner's deposited PHRS to a recipient via the SessionKeyManager."
+        },
+        {
+          "name": "SESSION_WITHDRAW",
+          "description": "Withdraw unspent native PHRS from your SessionKeyManager balance back to your wallet."
+        },
+        {
+          "name": "SESSION_ALLOWANCE",
+          "description": "Read the spending cap, expiry, and active flag for a session key under an owner from the SessionKeyManager."
+        }
+      ]
+    },
+    {
+      "domain": "subscription",
+      "count": 6,
+      "skills": [
+        {
+          "name": "SUBSCRIPTION_CREATE_PLAN",
+          "description": "Create a recurring subscription plan with a native PHRS price charged every period seconds."
+        },
+        {
+          "name": "SUBSCRIPTION_SUBSCRIBE",
+          "description": "Subscribe to a billing plan on SubscriptionManager, funding the subscription with native PHRS."
+        },
+        {
+          "name": "SUBSCRIPTION_CHARGE",
+          "description": "Charge a due subscription on SubscriptionManager, debiting its balance and advancing the next charge time."
+        },
+        {
+          "name": "SUBSCRIPTION_TOPUP",
+          "description": "Top up a subscription's balance with native PHRS so future charges can be collected."
+        },
+        {
+          "name": "SUBSCRIPTION_CANCEL",
+          "description": "Cancel an active subscription on SubscriptionManager, stopping future charges."
+        },
+        {
+          "name": "SUBSCRIPTION_GET",
+          "description": "Read a subscription's plan, subscriber, balance, next charge time, and active flag from SubscriptionManager."
+        }
+      ]
+    },
+    {
+      "domain": "vault",
+      "count": 6,
+      "skills": [
+        {
+          "name": "VAULT_SUBMIT",
+          "description": "Submit a new transaction proposal to the AgentVault multisig, sending native PHRS and optional calldata."
+        },
+        {
+          "name": "VAULT_CONFIRM",
+          "description": "Confirm a pending AgentVault transaction proposal, adding the caller's approval toward the threshold."
+        },
+        {
+          "name": "VAULT_REVOKE",
+          "description": "Revoke the caller's confirmation on a pending AgentVault transaction, lowering its approval count."
+        },
+        {
+          "name": "VAULT_EXECUTE",
+          "description": "Execute an AgentVault transaction that has met its confirmation threshold, dispatching the funds and calldata."
+        },
+        {
+          "name": "VAULT_GET_TX",
+          "description": "Read a single AgentVault transaction proposal: destination, value, calldata, executed flag, and confirmation count."
+        },
+        {
+          "name": "VAULT_INFO",
+          "description": "Read the AgentVault configuration: confirmation threshold, owner count, and total transaction count."
+        }
+      ]
+    },
+    {
+      "domain": "dispute",
+      "count": 3,
+      "skills": [
+        {
+          "name": "DISPUTE_OPEN",
+          "description": "Open a dispute case in the ArbiterPanel referencing a StoaEscrow job, with evidence."
+        },
+        {
+          "name": "DISPUTE_VOTE",
+          "description": "Vote as an arbiter on a dispute case (favor payee or payer)."
+        },
+        {
+          "name": "DISPUTE_GET",
+          "description": "Read a dispute case: referenced job, evidence, vote tally, and current verdict."
+        }
+      ]
+    },
+    {
+      "domain": "keeper",
+      "count": 2,
+      "skills": [
+        {
+          "name": "KEEPER_SCAN_SUBSCRIPTIONS",
+          "description": "Scan subscriptions and report which are currently chargeable (active, past nextCharge, funded)."
+        },
+        {
+          "name": "KEEPER_CHARGE_DUE",
+          "description": "Attempt to charge each given subscription; collects tx hashes for those that succeed."
+        }
+      ]
+    },
+    {
+      "domain": "rwa",
+      "count": 4,
+      "skills": [
+        {
+          "name": "RWA_ISSUE",
+          "description": "Issue a real-world-asset receipt (type, valuation, metadata) to a holder in the RwaRegistry."
+        },
+        {
+          "name": "RWA_TRANSFER",
+          "description": "Transfer a real-world-asset receipt you hold to another address."
+        },
+        {
+          "name": "RWA_REDEEM",
+          "description": "Redeem (settle) a real-world-asset receipt."
+        },
+        {
+          "name": "RWA_GET",
+          "description": "Read a real-world-asset receipt by id, or list the asset ids ever held by an address."
+        }
+      ]
+    },
+    {
+      "domain": "repvalue",
+      "count": 2,
+      "skills": [
+        {
+          "name": "REPUTATION_VALUE_RECORD",
+          "description": "Record that you settled some value with an agent, accruing its value-weighted reputation."
+        },
+        {
+          "name": "REPUTATION_VALUE_SCORE",
+          "description": "Read an agent's value-weighted reputation: total value settled, job count, and average."
+        }
+      ]
+    }
+  ]
+}

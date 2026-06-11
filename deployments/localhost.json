@@ -1,0 +1,20 @@
+{
+  "network": "localhost",
+  "chainId": 31337,
+  "rpcUrl": "http://127.0.0.1:8545",
+  "contracts": {
+    "registry": "0x...",
+    "escrow": "0x...",
+    "services": "0x...",
+    "social": "0x...",
+    "tipJar": "0x...",
+    "streaming": "0x...",
+    "faucet": "0x...",
+    "sessionKeys": "0x...",
+    "subscriptions": "0x...",
+    "vault": "0x...",
+    "arbiterPanel": "0x...",
+    "rwa": "0x...",
+    "valueReputation": "0x..."
+  }
+}

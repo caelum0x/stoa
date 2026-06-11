@@ -25,4 +25,32 @@ for (const [group, acts] of Object.entries(actionGroups)) {
 }
 
 writeFileSync(new URL("../../../docs/SKILLS.md", import.meta.url), lines.join("\n"));
-console.log(`Wrote docs/SKILLS.md — ${actions.length} skills.`);
+
+// Also emit a structured JSON catalog consumed by the web app (apps/web) and other tooling,
+// so consumers don't need to import/build @stoa/skills at runtime.
+const firstSentence = (s: string): string => {
+  const cleaned = s.replace(/\n/g, " ").trim();
+  const dot = cleaned.indexOf(". ");
+  return dot === -1 ? cleaned : cleaned.slice(0, dot + 1);
+};
+
+const catalog = {
+  totalSkills: actions.length,
+  totalDomains: Object.keys(actionGroups).length,
+  domains: Object.entries(actionGroups).map(([domain, acts]) => ({
+    domain,
+    count: acts.length,
+    skills: acts.map((a) => ({ name: a.name, description: firstSentence(a.description) })),
+  })),
+};
+
+const json = JSON.stringify(catalog, null, 2);
+writeFileSync(new URL("../generated/skills.json", import.meta.url), json);
+// Mirror into the web app so it has a zero-dependency, static data source.
+try {
+  writeFileSync(new URL("../../../apps/web/lib/skills-catalog.json", import.meta.url), json);
+} catch {
+  // apps/web may not exist in all checkouts; ignore.
+}
+
+console.log(`Wrote docs/SKILLS.md + generated/skills.json — ${actions.length} skills.`);
