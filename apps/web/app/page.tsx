@@ -18,6 +18,9 @@ export default function Home() {
             <Link href="/agents" className="hover:text-blue-600 transition-colors">
               agents
             </Link>
+            <Link href="/register" className="hover:text-blue-600 transition-colors">
+              register
+            </Link>
             <Link href="/skills" className="hover:text-blue-600 transition-colors">
               skills
             </Link>
