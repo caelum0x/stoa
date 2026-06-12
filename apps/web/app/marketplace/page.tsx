@@ -2,18 +2,19 @@
 import { useCallback, useEffect, useState } from "react";
 import { Container, Card, Button, Badge, Spinner, EmptyState, SectionHeading, short } from "@/components/ui";
 import { useWallet } from "@/components/WalletProvider";
+import { useTx } from "@/components/ToastProvider";
 import { browseServices, hireWithEscrow, ADDR, type Service } from "@/lib/onchain";
 
 const CAPS = ["research", "market-insight", "translation", "summary"];
 
 export default function Marketplace() {
   const { address, connect } = useWallet();
+  const tx = useTx();
   const [cap, setCap] = useState("research");
   const [services, setServices] = useState<Service[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [hiring, setHiring] = useState<number | null>(null);
-  const [toast, setToast] = useState<string | null>(null);
 
   const load = useCallback(async (capability: string) => {
     setLoading(true);
@@ -35,13 +36,11 @@ export default function Marketplace() {
 
   async function hire(s: Service) {
     setHiring(s.serviceId);
-    setToast(null);
     try {
       const amount = Number(s.price) > 0 ? s.price : "0.001";
-      const { hash, jobId } = await hireWithEscrow({ payee: s.provider, amountPhrs: amount });
-      setToast(`Hired via escrow job #${jobId ?? "?"} · ${short(hash, 6)}`);
-    } catch (e) {
-      setToast(e instanceof Error ? e.message : String(e));
+      await tx("Hiring", () => hireWithEscrow({ payee: s.provider, amountPhrs: amount }));
+    } catch {
+      /* toast handles error */
     } finally {
       setHiring(null);
     }
@@ -104,12 +103,6 @@ export default function Marketplace() {
               </div>
             </Card>
           ))}
-        </div>
-      )}
-
-      {toast && (
-        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 rounded-xl border border-white/10 bg-zinc-900 px-5 py-3 font-mono text-sm text-zinc-200 shadow-xl">
-          {toast}
         </div>
       )}
     </Container>

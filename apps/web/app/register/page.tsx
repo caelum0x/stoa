@@ -2,10 +2,12 @@
 import { useState } from "react";
 import { Container, Card, Button, SectionHeading, short } from "@/components/ui";
 import { useWallet } from "@/components/WalletProvider";
+import { useTx } from "@/components/ToastProvider";
 import { registerAgent } from "@/lib/onchain";
 
 export default function RegisterPage() {
   const { address, connect, connecting } = useWallet();
+  const tx = useTx();
   const [name, setName] = useState("Mercator");
   const [skill, setSkill] = useState("research");
   const [result, setResult] = useState<{ hash: string; agentId?: number } | null>(null);
@@ -18,7 +20,7 @@ export default function RegisterPage() {
     setBusy(true);
     try {
       const metadataURI = `data:application/json,${encodeURIComponent(JSON.stringify({ name, skill }))}`;
-      const { hash, agentId } = await registerAgent(metadataURI);
+      const { hash, agentId } = await tx("Registering agent", () => registerAgent(metadataURI));
       setResult({ hash, agentId });
     } catch (e) {
       setError(e instanceof Error ? e.message : String(e));

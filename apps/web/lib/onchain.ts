@@ -18,6 +18,8 @@ export const ADDR = {
   registry: process.env.NEXT_PUBLIC_STOA_REGISTRY_ADDRESS as Address | undefined,
   services: process.env.NEXT_PUBLIC_STOA_SERVICES_ADDRESS as Address | undefined,
   escrow: process.env.NEXT_PUBLIC_STOA_ESCROW_ADDRESS as Address | undefined,
+  social: process.env.NEXT_PUBLIC_STOA_SOCIAL_ADDRESS as Address | undefined,
+  tipJar: process.env.NEXT_PUBLIC_STOA_TIPJAR_ADDRESS as Address | undefined,
 };
 
 export const publicClient = createPublicClient({
@@ -65,6 +67,7 @@ const servicesAbi = [
       { name: "provider", type: "address" }, { name: "agentId", type: "uint256" }, { name: "capability", type: "string" },
       { name: "endpoint", type: "string" }, { name: "metadataURI", type: "string" }, { name: "priceWei", type: "uint256" }, { name: "active", type: "bool" }] }],
   },
+  { type: "event", name: "ServiceListed", inputs: [{ name: "serviceId", type: "uint256", indexed: true }, { name: "provider", type: "address", indexed: true }, { name: "capability", type: "string", indexed: false }, { name: "priceWei", type: "uint256", indexed: false }] },
 ] as const;
 
 const escrowAbi = [
@@ -85,6 +88,25 @@ const escrowAbi = [
 ] as const;
 
 const ESCROW_STATE = ["Active", "Completed", "Refunded"] as const;
+
+const socialAbi = [
+  { type: "function", name: "post", stateMutability: "nonpayable", inputs: [{ name: "contentURI", type: "string" }], outputs: [{ name: "postId", type: "uint256" }] },
+  { type: "function", name: "like", stateMutability: "nonpayable", inputs: [{ name: "postId", type: "uint256" }], outputs: [] },
+  { type: "function", name: "follow", stateMutability: "nonpayable", inputs: [{ name: "followee", type: "address" }], outputs: [] },
+  { type: "function", name: "totalPosts", stateMutability: "view", inputs: [], outputs: [{ name: "", type: "uint256" }] },
+  {
+    type: "function", name: "getPost", stateMutability: "view", inputs: [{ name: "postId", type: "uint256" }],
+    outputs: [{ name: "", type: "tuple", components: [
+      { name: "author", type: "address" }, { name: "parentId", type: "uint256" }, { name: "contentURI", type: "string" },
+      { name: "createdAt", type: "uint64" }, { name: "likes", type: "uint64" }] }],
+  },
+  { type: "event", name: "Posted", inputs: [{ name: "postId", type: "uint256", indexed: true }, { name: "author", type: "address", indexed: true }, { name: "parentId", type: "uint256", indexed: true }, { name: "contentURI", type: "string", indexed: false }] },
+] as const;
+
+const tipJarAbi = [
+  { type: "function", name: "tip", stateMutability: "payable", inputs: [{ name: "to", type: "address" }, { name: "memo", type: "string" }], outputs: [] },
+  { type: "event", name: "Tipped", inputs: [{ name: "from", type: "address", indexed: true }, { name: "to", type: "address", indexed: true }, { name: "amount", type: "uint256", indexed: false }, { name: "memo", type: "string", indexed: false }] },
+] as const;
 
 // --- Types ---------------------------------------------------------------- //
 
@@ -273,4 +295,114 @@ export async function myJobs(payer: Address): Promise<Job[]> {
     });
   }
   return out.reverse();
+}
+
+// --- Social + tipping ----------------------------------------------------- //
+
+export interface Post {
+  postId: number;
+  author: Address;
+  contentURI: string;
+  likes: number;
+  createdAt: number;
+}
+
+export async function getFeed(limit = 30): Promise<Post[]> {
+  const social = need(ADDR.social, "social");
+  const total = Number(
+    (await publicClient.readContract({ address: social, abi: socialAbi, functionName: "totalPosts" })) as bigint,
+  );
+  const out: Post[] = [];
+  for (let id = total; id >= 1 && out.length < limit; id--) {
+    try {
+      const p = (await publicClient.readContract({ address: social, abi: socialAbi, functionName: "getPost", args: [BigInt(id)] })) as {
+        author: Address; parentId: bigint; contentURI: string; createdAt: bigint; likes: bigint;
+      };
+      out.push({ postId: id, author: p.author, contentURI: p.contentURI, likes: Number(p.likes), createdAt: Number(p.createdAt) });
+    } catch {
+      /* skip */
+    }
+  }
+  return out;
+}
+
+export async function socialPost(contentURI: string): Promise<Hash> {
+  const w = await wallet();
+  return w.writeContract({ chain: PHAROS_ATLANTIC, address: need(ADDR.social, "social"), abi: socialAbi, functionName: "post", args: [contentURI] });
+}
+
+export async function likePost(postId: number): Promise<Hash> {
+  const w = await wallet();
+  return w.writeContract({ chain: PHAROS_ATLANTIC, address: need(ADDR.social, "social"), abi: socialAbi, functionName: "like", args: [BigInt(postId)] });
+}
+
+export async function followAgent(followee: Address): Promise<Hash> {
+  const w = await wallet();
+  return w.writeContract({ chain: PHAROS_ATLANTIC, address: need(ADDR.social, "social"), abi: socialAbi, functionName: "follow", args: [followee] });
+}
+
+export async function tip(to: Address, amountPhrs: string, memo = ""): Promise<Hash> {
+  const w = await wallet();
+  return w.writeContract({ chain: PHAROS_ATLANTIC, address: need(ADDR.tipJar, "tipjar"), abi: tipJarAbi, functionName: "tip", args: [to, memo], value: parseEther(amountPhrs) });
+}
+
+// --- Cross-contract activity feed ----------------------------------------- //
+
+export interface Activity {
+  kind: string;
+  summary: string;
+  blockNumber: number;
+  txHash: string;
+}
+
+export async function getActivity(): Promise<Activity[]> {
+  const items: Activity[] = [];
+  const push = (kind: string, summary: string, log: { blockNumber: bigint; transactionHash: string }) =>
+    items.push({ kind, summary, blockNumber: Number(log.blockNumber), txHash: log.transactionHash });
+
+  const tasks: Array<Promise<void>> = [];
+
+  if (ADDR.registry) {
+    tasks.push(
+      publicClient
+        .getContractEvents({ address: ADDR.registry, abi: registryAbi, eventName: "AgentRegistered", fromBlock: 0n, toBlock: "latest" })
+        .then((logs) => logs.forEach((l) => push("identity", `agent #${Number(l.args.agentId ?? 0n)} registered`, l)))
+        .catch(() => {}),
+    );
+  }
+  if (ADDR.services) {
+    tasks.push(
+      publicClient
+        .getContractEvents({ address: ADDR.services, abi: servicesAbi, eventName: "ServiceListed", fromBlock: 0n, toBlock: "latest" })
+        .then((logs) => logs.forEach((l) => push("service", `service "${l.args.capability}" listed`, l)))
+        .catch(() => {}),
+    );
+  }
+  if (ADDR.escrow) {
+    tasks.push(
+      publicClient
+        .getContractEvents({ address: ADDR.escrow, abi: escrowAbi, eventName: "JobCreated", fromBlock: 0n, toBlock: "latest" })
+        .then((logs) => logs.forEach((l) => push("escrow", `job #${Number(l.args.jobId ?? 0n)} · ${formatEther((l.args.total as bigint) ?? 0n)} PHRS`, l)))
+        .catch(() => {}),
+    );
+  }
+  if (ADDR.social) {
+    tasks.push(
+      publicClient
+        .getContractEvents({ address: ADDR.social, abi: socialAbi, eventName: "Posted", fromBlock: 0n, toBlock: "latest" })
+        .then((logs) => logs.forEach((l) => push("social", `post #${Number(l.args.postId ?? 0n)}`, l)))
+        .catch(() => {}),
+    );
+  }
+  if (ADDR.tipJar) {
+    tasks.push(
+      publicClient
+        .getContractEvents({ address: ADDR.tipJar, abi: tipJarAbi, eventName: "Tipped", fromBlock: 0n, toBlock: "latest" })
+        .then((logs) => logs.forEach((l) => push("tip", `tip of ${formatEther((l.args.amount as bigint) ?? 0n)} PHRS`, l)))
+        .catch(() => {}),
+    );
+  }
+
+  await Promise.all(tasks);
+  return items.sort((a, b) => b.blockNumber - a.blockNumber).slice(0, 60);
 }

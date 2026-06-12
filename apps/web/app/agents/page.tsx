@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 import { Container, Card, Button, Badge, Spinner, EmptyState, SectionHeading, short } from "@/components/ui";
 import { useWallet } from "@/components/WalletProvider";
+import { useTx } from "@/components/ToastProvider";
 import { listAgents, registerAgent, ADDR, type AgentInfo } from "@/lib/onchain";
 
 function avg(rep: { count: number; scoreSum: number }): string {
@@ -11,12 +12,12 @@ function avg(rep: { count: number; scoreSum: number }): string {
 
 export default function Agents() {
   const { address, connect } = useWallet();
+  const tx = useTx();
   const [agents, setAgents] = useState<AgentInfo[]>([]);
   const [loading, setLoading] = useState(false);
   const [name, setName] = useState("Mercator");
   const [skill, setSkill] = useState("research");
   const [busy, setBusy] = useState(false);
-  const [toast, setToast] = useState<string | null>(null);
 
   const load = useCallback(async () => {
     if (!ADDR.registry) return;
@@ -36,14 +37,12 @@ export default function Agents() {
 
   async function register() {
     setBusy(true);
-    setToast(null);
     try {
       const metadataURI = `data:application/json,${encodeURIComponent(JSON.stringify({ name, skill }))}`;
-      const { agentId, hash } = await registerAgent(metadataURI);
-      setToast(`Registered as agent #${agentId ?? "?"} · ${short(hash, 6)}`);
+      await tx("Registering agent", () => registerAgent(metadataURI));
       await load();
-    } catch (e) {
-      setToast(e instanceof Error ? e.message : String(e));
+    } catch {
+      /* toast handles error */
     } finally {
       setBusy(false);
     }
@@ -118,12 +117,6 @@ export default function Agents() {
           </div>
         </Card>
       </div>
-
-      {toast && (
-        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 rounded-xl border border-white/10 bg-zinc-900 px-5 py-3 font-mono text-sm text-zinc-200 shadow-xl">
-          {toast}
-        </div>
-      )}
     </Container>
   );
 }

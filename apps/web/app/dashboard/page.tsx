@@ -2,14 +2,15 @@
 import { useCallback, useEffect, useState } from "react";
 import { Container, Card, Button, Badge, Spinner, EmptyState, SectionHeading, LinkButton, short } from "@/components/ui";
 import { useWallet } from "@/components/WalletProvider";
+import { useTx } from "@/components/ToastProvider";
 import { getPrimaryAgentId, listService, myJobs, releaseMilestone, attestReputation, ADDR, type Job } from "@/lib/onchain";
 
 export default function Dashboard() {
   const { address, connect } = useWallet();
+  const tx = useTx();
   const [agentId, setAgentId] = useState<number | null>(null);
   const [jobs, setJobs] = useState<Job[]>([]);
   const [loading, setLoading] = useState(false);
-  const [toast, setToast] = useState<string | null>(null);
 
   // List-service form
   const [cap, setCap] = useState("research");
@@ -40,12 +41,10 @@ export default function Dashboard() {
   async function doList() {
     if (!agentId) return;
     setListing(true);
-    setToast(null);
     try {
-      const hash = await listService({ agentId, capability: cap, endpoint, price });
-      setToast(`Service listed · ${short(hash, 6)}`);
-    } catch (e) {
-      setToast(e instanceof Error ? e.message : String(e));
+      await tx("Listing service", () => listService({ agentId, capability: cap, endpoint, price }));
+    } catch {
+      /* toast handles error */
     } finally {
       setListing(false);
     }
@@ -54,14 +53,12 @@ export default function Dashboard() {
   const [rating, setRating] = useState<number | null>(null);
   async function doRate(job: Job) {
     setRating(job.jobId);
-    setToast(null);
     try {
       const id = await getPrimaryAgentId(job.payee);
       if (!id) throw new Error("Payee has no registered agent to rate.");
-      const hash = await attestReputation(id, 5, `stoa:job/${job.jobId}`);
-      setToast(`Rated agent #${id} ★5 · ${short(hash, 6)}`);
-    } catch (e) {
-      setToast(e instanceof Error ? e.message : String(e));
+      await tx("Rating provider", () => attestReputation(id, 5, `stoa:job/${job.jobId}`));
+    } catch {
+      /* toast handles error */
     } finally {
       setRating(null);
     }
@@ -70,13 +67,11 @@ export default function Dashboard() {
   async function doRelease(jobId: number, index: number) {
     const key = `${jobId}-${index}`;
     setReleasing(key);
-    setToast(null);
     try {
-      const hash = await releaseMilestone(jobId, index);
-      setToast(`Milestone released · ${short(hash, 6)}`);
+      await tx("Releasing milestone", () => releaseMilestone(jobId, index));
       await refresh();
-    } catch (e) {
-      setToast(e instanceof Error ? e.message : String(e));
+    } catch {
+      /* toast handles error */
     } finally {
       setReleasing(null);
     }
@@ -202,12 +197,6 @@ export default function Dashboard() {
           )}
         </div>
       </div>
-
-      {toast && (
-        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 rounded-xl border border-white/10 bg-zinc-900 px-5 py-3 font-mono text-sm text-zinc-200 shadow-xl">
-          {toast}
-        </div>
-      )}
     </Container>
   );
 }

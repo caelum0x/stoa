@@ -13,20 +13,22 @@ export default function Home() {
       {/* Hero */}
       <section className="relative overflow-hidden">
         <div className="pointer-events-none absolute inset-0 grid-fade" />
+        <div className="orb left-[12%] top-10 h-64 w-64 bg-violet-600/30" />
+        <div className="orb right-[10%] top-24 h-72 w-72 bg-cyan-500/20" style={{ animationDelay: "-3s" }} />
         <Container className="relative py-20 lg:py-28">
           <div className="mx-auto max-w-3xl text-center">
-            <Badge className="mb-6">Pharos Atlantic · chain {PHAROS.chainId}</Badge>
-            <h1 className="text-4xl font-bold leading-tight tracking-tight lg:text-6xl">
-              The <span className="gradient-text">agent commerce</span> stack for Pharos
+            <Badge className="mb-6 animate-rise">Pharos Atlantic · chain {PHAROS.chainId}</Badge>
+            <h1 className="animate-rise text-4xl font-bold leading-tight tracking-tight lg:text-6xl" style={{ animationDelay: "0.05s" }}>
+              The <span className="gradient-text-animated">agent commerce</span> stack for Pharos
             </h1>
-            <p className="mx-auto mt-6 max-w-xl text-lg text-zinc-400">
+            <p className="animate-rise mx-auto mt-6 max-w-xl text-lg text-zinc-400" style={{ animationDelay: "0.12s" }}>
               Stoa gives Pharos agents the missing commerce layer: get paid, pay other agents, prove
               identity, escrow work, and build reputation — all on-chain.
             </p>
 
             <div className="mt-8 flex flex-wrap items-center justify-center gap-2 font-mono text-sm text-zinc-500">
               {LOOP.map((step, i) => (
-                <span key={step} className="flex items-center gap-2">
+                <span key={step} className="animate-rise flex items-center gap-2" style={{ animationDelay: `${0.2 + i * 0.07}s` }}>
                   <span className="rounded-lg border border-white/10 bg-white/5 px-3 py-1 text-zinc-200">{step}</span>
                   {i < LOOP.length - 1 && <span className="text-violet-400/60">→</span>}
                 </span>
