@@ -1,5 +1,43 @@
 # Live Deployment
 
+## Project URLs
+
+GitHub repository: `https://github.com/caelum0x/stoa`
+
+Vercel production deployment:
+
+- `https://pharos-7qxc3odaf-arhansubas-projects.vercel.app`
+
+Vercel aliases:
+
+- `https://pharos-fawn-psi.vercel.app`
+- `https://pharos-arhansubas-projects.vercel.app`
+- `https://pharos-arhansuba-arhansubas-projects.vercel.app`
+
+Vercel inspect:
+
+- `https://vercel.com/arhansubas-projects/pharos/7yYmWnYbEzZY1dekqYGLCjFtzTiv`
+
+Deployment-protection note: this Vercel project currently has deployment protection enabled. The
+deployment is ready and verified through authenticated `vercel curl`; disable Production
+Deployment Protection in Vercel before sharing with unauthenticated judges.
+
+Useful app routes:
+
+| Route | Purpose |
+|---|---|
+| `/` | product entry |
+| `/api/contracts` | JSON list of live contract addresses |
+| `/marketplace` | live services from `ServiceRegistry` |
+| `/agents` | live agents from `StoaRegistry` |
+| `/dashboard` | service listing, escrow jobs, release, rate |
+| `/social` | posts and tipping |
+| `/contracts` | Streaming, subscriptions, vault, dispute, RWA, value reputation |
+| `/protected` | x402 paid API demo |
+| `/playground` | skill playground |
+
+## Network
+
 Network: Pharos Atlantic Testnet  
 Chain id: `688689`  
 RPC: `https://atlantic.dplabs-internal.com/`  
@@ -23,6 +61,11 @@ Deployer: `0xd5906A7DDA28924309334d53f5bF117Fe809335f`
 | RwaRegistry | `0x8cb6ae16b0da476bd87618b223e2062ddb06d038` |
 | ValueReputation | `0x7a42ee304b5d07d4886ee37b65b641f154871ef0` |
 
+JSON manifest:
+
+- `deployments/pharos-atlantic.json`
+- `packages/contracts/deployments/pharos-atlantic.json`
+
 ## Seed Proof
 
 Seed transaction hashes:
@@ -36,3 +79,38 @@ Verify live bytecode and seeded counters:
 ```bash
 pnpm verify:live
 ```
+
+Expected verification summary:
+
+```text
+pharos-atlantic · chain 688689
+seed agents=1
+seed services=1
+seed posts=1
+```
+
+## Build And Test Proof
+
+```bash
+pnpm verify:live
+pnpm contracts:test
+pnpm --filter @stoa/skills test
+pnpm build
+```
+
+Current local verification:
+
+- `pnpm verify:live` passes; all 13 contracts have bytecode.
+- `pnpm contracts:test` passes.
+- `pnpm --filter @stoa/skills test` passes.
+- `pnpm build` passes.
+
+## Submission Fields
+
+Project name: `Stoa`  
+One-line pitch: `The Agent Commerce Stack for Pharos: discover, trust, hire, pay, settle, and rate autonomous agents on-chain.`  
+Repository: `https://github.com/caelum0x/stoa`  
+Demo URL: `https://pharos-7qxc3odaf-arhansubas-projects.vercel.app`  
+Network: `Pharos Atlantic Testnet`  
+Chain id: `688689`  
+Deployed-address proof: use the contract table above or `deployments/pharos-atlantic.json`.

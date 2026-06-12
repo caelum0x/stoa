@@ -3,6 +3,14 @@
 **The Agent Commerce Stack for Pharos.**
 Skill-to-Agent Dual Cascade Hackathon · Phase 1 (Skills) + Phase 2 (Agent Arena).
 
+## Live Links
+
+| Item | URL |
+|---|---|
+| GitHub | `https://github.com/caelum0x/stoa` |
+| Vercel production | `https://pharos-7qxc3odaf-arhansubas-projects.vercel.app` |
+| Live deployment proof | [`docs/LIVE_DEPLOYMENT.md`](docs/LIVE_DEPLOYMENT.md) |
+
 ## The one-sentence pitch
 
 > Most blockchain agent skills are read-only — check a balance, read a price. **Stoa lets Pharos

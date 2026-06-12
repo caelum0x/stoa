@@ -8,6 +8,12 @@ Built for the **Pharos Skill-to-Agent Dual Cascade Hackathon**. Stoa is the comm
 Pharos AI Agent economy: a suite of six reusable, Pharos Agent Kit-compatible skills and the
 contracts they settle against.
 
+Live repo and deployment:
+
+- GitHub: `https://github.com/caelum0x/stoa`
+- Vercel: `https://pharos-7qxc3odaf-arhansubas-projects.vercel.app`
+- Live contracts and seed proof: [docs/LIVE_DEPLOYMENT.md](docs/LIVE_DEPLOYMENT.md)
+
 ```
 discover → trust → hire → subcontract → pay → settle → rate
 ```

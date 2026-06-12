@@ -10,6 +10,18 @@ Built for the **Pharos Skill-to-Agent Dual Cascade Hackathon** · Phase 1 (Skill
 
 ---
 
+## Live Links
+
+| Item | URL |
+|---|---|
+| GitHub | `https://github.com/caelum0x/stoa` |
+| Vercel production | `https://pharos-7qxc3odaf-arhansubas-projects.vercel.app` |
+| Live deployment proof | [`docs/LIVE_DEPLOYMENT.md`](docs/LIVE_DEPLOYMENT.md) |
+| Contract JSON API | `/api/contracts` |
+
+Production Deployment Protection is enabled on Vercel at the time of writing. Disable it before
+sharing the public demo URL with unauthenticated judges.
+
 ## The winning loop
 
 ```
