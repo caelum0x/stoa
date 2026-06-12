@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 import { Container, Card, Button, Badge, Spinner, EmptyState, SectionHeading, short } from "@/components/ui";
 import { useWallet } from "@/components/WalletProvider";
@@ -64,7 +65,8 @@ export default function Agents() {
           ) : (
             <div className="grid gap-3">
               {agents.map((a) => (
-                <Card key={a.agentId} hover className="flex items-center justify-between p-5">
+                <Link key={a.agentId} href={`/agents/${a.agentId}`} className="block">
+                <Card hover className="flex items-center justify-between p-5">
                   <div className="min-w-0">
                     <div className="flex items-center gap-2">
                       <Badge>agent #{a.agentId}</Badge>
@@ -77,6 +79,7 @@ export default function Agents() {
                     <div className="font-mono text-xs text-zinc-600">{a.reputation.count} ratings</div>
                   </div>
                 </Card>
+                </Link>
               ))}
             </div>
           )}
