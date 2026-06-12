@@ -11,7 +11,7 @@ contracts they settle against.
 Live repo and deployment:
 
 - GitHub: `https://github.com/caelum0x/stoa`
-- Vercel: `https://pharos-7qxc3odaf-arhansubas-projects.vercel.app`
+- Vercel: `https://pharos-fawn-psi.vercel.app`
 - Live contracts and seed proof: [docs/LIVE_DEPLOYMENT.md](docs/LIVE_DEPLOYMENT.md)
 
 ```

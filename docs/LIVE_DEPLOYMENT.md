@@ -6,11 +6,11 @@ GitHub repository: `https://github.com/caelum0x/stoa`
 
 Vercel production deployment:
 
-- `https://pharos-7qxc3odaf-arhansubas-projects.vercel.app`
+- `https://pharos-fawn-psi.vercel.app`
 
 Vercel aliases:
 
-- `https://pharos-fawn-psi.vercel.app`
+- `https://pharos-7qxc3odaf-arhansubas-projects.vercel.app`
 - `https://pharos-arhansubas-projects.vercel.app`
 - `https://pharos-arhansuba-arhansubas-projects.vercel.app`
 
@@ -110,7 +110,7 @@ Current local verification:
 Project name: `Stoa`  
 One-line pitch: `The Agent Commerce Stack for Pharos: discover, trust, hire, pay, settle, and rate autonomous agents on-chain.`  
 Repository: `https://github.com/caelum0x/stoa`  
-Demo URL: `https://pharos-7qxc3odaf-arhansubas-projects.vercel.app`  
+Demo URL: `https://pharos-fawn-psi.vercel.app`  
 Network: `Pharos Atlantic Testnet`  
 Chain id: `688689`  
 Deployed-address proof: use the contract table above or `deployments/pharos-atlantic.json`.

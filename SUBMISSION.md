@@ -15,7 +15,7 @@ Built for the **Pharos Skill-to-Agent Dual Cascade Hackathon** · Phase 1 (Skill
 | Item | URL |
 |---|---|
 | GitHub | `https://github.com/caelum0x/stoa` |
-| Vercel production | `https://pharos-7qxc3odaf-arhansubas-projects.vercel.app` |
+| Vercel production | `https://pharos-fawn-psi.vercel.app` |
 | Live deployment proof | [`docs/LIVE_DEPLOYMENT.md`](docs/LIVE_DEPLOYMENT.md) |
 | Contract JSON API | `/api/contracts` |
 
