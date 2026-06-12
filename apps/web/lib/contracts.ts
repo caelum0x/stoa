@@ -56,6 +56,7 @@ function addr(envName: string): Address {
 export async function registerAgentOnChain(metadataURI: string): Promise<Hash> {
   const wallet = await walletClient();
   return wallet.writeContract({
+    chain: PHAROS_ATLANTIC,
     address: addr("NEXT_PUBLIC_STOA_REGISTRY_ADDRESS"),
     abi: REGISTRY_ABI,
     functionName: "register",
@@ -73,6 +74,7 @@ export async function listServiceOnChain(input: {
 }): Promise<Hash> {
   const wallet = await walletClient();
   return wallet.writeContract({
+    chain: PHAROS_ATLANTIC,
     address: addr("NEXT_PUBLIC_STOA_SERVICES_ADDRESS"),
     abi: SERVICES_ABI,
     functionName: "list",

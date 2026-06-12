@@ -1,59 +1,73 @@
 # Architecture
 
-Stoa is a layered stack: skills call tools, tools call viem/x402, and value settles on two
-purpose-built contracts.
+Stoa is a layered monorepo: a Next.js app and the Mercator agent sit on a developer SDK, which sits
+on the skill library, which settles on 13 Foundry contracts on Pharos.
 
 ```
-            ┌─────────────────────────────────────────────────────────┐
-            │  Agent frameworks (LangChain · Vercel AI SDK · MCP)       │
-            └───────────────┬─────────────────────────────────────────┘
-                            │  adapters/ (createLangchainTools, …)
-            ┌───────────────▼─────────────────────────────────────────┐
-            │  Skills (actions/)  — the 6 Pharos Agent Kit actions      │
-            │  x402_pay · x402_monetize · agent_identity                │
-            │  reputation · agent_escrow · treasury_guard               │
-            └───────────────┬─────────────────────────────────────────┘
-                            │  tools/ (x402 client, monetized server, loadOptional)
-            ┌───────────────▼─────────────────────────────────────────┐
-            │  StoaAgent (viem publicClient / walletClient / account)   │
-            └───────────────┬───────────────────────┬─────────────────┘
-                            │ JSON-RPC              │ x402 (HTTP 402)
-            ┌───────────────▼──────────┐  ┌─────────▼─────────────────┐
-            │ StoaRegistry · StoaEscrow│  │ x402 facilitator / peers   │
-            │ (Pharos Atlantic 688689) │  │                            │
-            └──────────────────────────┘  └────────────────────────────┘
+   ┌───────────────────────────────────────────────────────────────────────────┐
+   │  apps/web (Next.js)         @stoa/agent-mercator        @stoa/cli           │
+   │  pages + API routes         Phase-2 flagship agent      run any skill       │
+   └───────────────┬───────────────────────┬──────────────────────┬────────────┘
+                   │                        │                      │
+                   ▼                        ▼                      ▼
+   ┌───────────────────────────────────────────────────────────────────────────┐
+   │  @stoa/sdk — StoaClient (typed commerce client) + contracts/x402/treasury  │
+   └───────────────────────────────┬───────────────────────────────────────────┘
+                                    ▼
+   ┌───────────────────────────────────────────────────────────────────────────┐
+   │  @stoa/skills — 255 skills (Action {name,similes,schema,handler})          │
+   │  commerce · chain · token · nft · defi · social · marketdata · utils · …   │
+   │  adapters: LangChain · Vercel AI SDK · MCP · ElizaOS                        │
+   └───────────────────────────────┬───────────────────────────────────────────┘
+                                    │ viem (publicClient / walletClient) · x402 (HTTP 402)
+                                    ▼
+   ┌───────────────────────────────────────────────────────────────────────────┐
+   │  contracts (Foundry) on Pharos Atlantic 688689 — 13 contracts              │
+   │  StoaRegistry · StoaEscrow · ServiceRegistry · SocialFeed · TipJar ·       │
+   │  Streaming · Faucet · SessionKeyManager · SubscriptionManager · AgentVault │
+   │  · ArbiterPanel · RwaRegistry · ValueReputation                            │
+   └───────────────────────────────────────────────────────────────────────────┘
 ```
+
+## Packages
+
+| Package | Role |
+|---------|------|
+| `@stoa/skills` | The Phase-1 deliverable: 255 skills as Pharos Agent Kit actions + 4 framework adapters. Owns the `StoaAgent` (viem) context, ABIs, chains, and the deployment-manifest loader. |
+| `@stoa/sdk` | `StoaClient` — a typed, developer-facing commerce client wrapping the skills, plus `contracts/`, `x402/`, `treasury/` helpers, typed errors, and config. |
+| `contracts` | 13 reentrancy-guarded, dependency-free Foundry contracts + tests + deploy/seed scripts + generated `abi/*.json`. |
+| `@stoa/agent-mercator` | Phase-2 flagship agent: planner (seller scoring), scenario, trace, and the full commerce loop. |
+| `@stoa/cli` | Zero-dep terminal that auto-exposes every skill. |
+| `@stoa/examples` | Runnable per-skill demos + `99-full-commerce-loop.ts`. |
+| `apps/web` | Next.js dashboard: pages (`/`, `/skills`, `/marketplace`, `/agents`, `/register`, `/connect`, `/protected`, `/playground`) + API routes (`/api/health`, `/api/skills`, `/api/services`, `/api/agents`, `/api/contracts`, `/api/run`, `/api/x402/weather`). Vendored from the x402 Next.js example. |
 
 ## Design principles
 
-- **One interface, three surfaces.** A skill is defined once as an `Action`. The LangChain,
-  Vercel AI, and MCP adapters are thin and generated from the same `actions` array, so there is
-  exactly one place to add or change behavior.
-
-- **Pure core, isolated integrations.** Chain access goes through `StoaAgent` (viem). The optional
-  payment integrations (`@x402/*`, `express`) are loaded via `loadOptional()` so the package
-  type-checks and the non-payment skills run even when those packages are absent.
-
-- **String amounts at the boundary.** Human amounts stay as decimal strings until the last moment,
-  where viem's `parseUnits` converts them with the correct token decimals — no float precision loss.
-
+- **One interface, four surfaces.** A skill is defined once as an `Action`; the LangChain, Vercel
+  AI, MCP, and ElizaOS adapters are generated from the same `actions` array.
+- **Two clients, one logic.** Skills are LLM-facing tools; `StoaClient` is a typed developer API.
+  Both call the identical on-chain code, so behavior never diverges.
+- **Pure core, isolated integrations.** Chain access goes through `StoaAgent` (viem). Optional
+  integrations (`@x402/*`, `express`) load via `loadOptional()` so the package builds without them.
 - **Idempotent, explicit results.** Every handler returns `{ status, data, message }` and never
-  throws across the boundary; errors are caught and surfaced as `status: "error"`.
+  throws across the boundary.
+- **Safety wraps value movement.** `treasury_guard` gates every transfer behind allowlist, per-tx
+  ceiling, rolling daily cap, and simulate-before-send.
 
-## Data flow: a hire-to-settle cycle
+## The commerce loop (data flow)
 
-1. `agent_identity { op: register }` → `StoaRegistry.register` → `agentId`.
-2. `x402_monetize` → local express server guarded by x402 payment middleware → public URL.
-3. `agent_escrow { op: create }` → `StoaEscrow.createJob` (funds locked) → `jobId`.
-4. `x402_pay` → `@x402/fetch` signs an EIP-3009-style payment → facilitator settles → content.
-5. `agent_escrow { op: release }` → `StoaEscrow.release` → milestone paid to worker.
-6. `reputation { op: attest }` → `StoaRegistry.attest` → on-chain score.
+`discover` (`ServiceRegistry`) → `trust` (`StoaRegistry` identity + reputation) → `hire`
+(`StoaEscrow.createJob`) → `pay` (x402 / `StoaEscrow`) → `settle` (`StoaEscrow.release`) → `rate`
+(`StoaRegistry.attest` + `ValueReputation`). Proven on-chain offline by `MercatorFlow.t.sol` and
+end-to-end through the skills by `scripts/integration.ts`.
 
-## Package boundaries
+## Skill domains (62)
 
-| Package | Responsibility |
-|---------|----------------|
-| `@stoa/skills` | Skills, adapters, agent context, ABIs. The reusable Phase 1 artifact. |
-| `contracts` | Solidity + tests + deploy. The settlement layer. |
-| `@stoa/agent-mercator` | Phase 2 orchestration of the skills into a full agent. |
-| `@stoa/examples` | Minimal, copy-pasteable usage per skill. |
+`commerce` (the 7 flagship) plus supporting domains: `chain`, `token`, `nft`, `erc1155`, `native`,
+`wallet`, `keys`, `typeddata`, `sigutils`, `social`, `tip`, `stream`, `subscription`, `sessionkey`,
+`vault`, `dispute`, `rwa`, `repvalue`, `defi`, `marketdata`, `contract`, `events`, `simulate`,
+`discovery`, `faucet`, `portfolio`, `multibalance`, `explorer`, `tokenlist`, `permit`, `permitsign`,
+`erc165`, `erc721enum`, `vault4626`, `amm`, `pricemath`, `nodeinfo`, `rpc`, `gas`, `blocks`, `txops`,
+`keeper`, `agentcard`, `siwe`, `utils`, `math`, `format`, `convert`, `bytes`, `encoding`, `hashing`,
+`abitools`, `base64`, `random`, `duration`, `units`, `validate`, `addressutils`, `account`,
+`chainreg`, `memo`, `time`. The full list is auto-generated in [SKILLS.md](SKILLS.md).

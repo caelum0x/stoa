@@ -1,14 +1,14 @@
 "use client";
 // Dependency-free wallet connection for Pharos Atlantic using viem + an injected EIP-1193 wallet
 // (e.g. MetaMask). No wagmi/RainbowKit needed — keeps the app light.
-import { createPublicClient, http, formatEther, toHex, type Address } from "viem";
+import { createPublicClient, defineChain, http, formatEther, toHex, type Address } from "viem";
 
-export const PHAROS_ATLANTIC = {
+export const PHAROS_ATLANTIC = defineChain({
   id: 688689,
   name: "Pharos Atlantic Testnet",
   nativeCurrency: { name: "PHRS", symbol: "PHRS", decimals: 18 },
   rpcUrls: { default: { http: ["https://atlantic.dplabs-internal.com/"] } },
-} as const;
+});
 
 type Eip1193 = { request: (args: { method: string; params?: unknown[] }) => Promise<unknown> };
 
