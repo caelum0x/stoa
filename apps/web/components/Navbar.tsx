@@ -7,6 +7,7 @@ import { short } from "./ui";
 const LINKS = [
   { href: "/marketplace", label: "Marketplace" },
   { href: "/agents", label: "Agents" },
+  { href: "/dashboard", label: "Dashboard" },
   { href: "/skills", label: "Skills" },
   { href: "/playground", label: "Playground" },
 ];

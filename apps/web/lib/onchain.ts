@@ -46,6 +46,8 @@ const registryAbi = [
   { type: "function", name: "register", stateMutability: "nonpayable", inputs: [{ name: "metadataURI", type: "string" }], outputs: [{ name: "agentId", type: "uint256" }] },
   { type: "function", name: "getAgent", stateMutability: "view", inputs: [{ name: "agentId", type: "uint256" }], outputs: [{ name: "owner", type: "address" }, { name: "metadataURI", type: "string" }, { name: "createdAt", type: "uint64" }] },
   { type: "function", name: "reputationOf", stateMutability: "view", inputs: [{ name: "agentId", type: "uint256" }], outputs: [{ name: "count", type: "uint64" }, { name: "scoreSum", type: "int256" }] },
+  { type: "function", name: "primaryAgentId", stateMutability: "view", inputs: [{ name: "owner", type: "address" }], outputs: [{ name: "", type: "uint256" }] },
+  { type: "function", name: "attest", stateMutability: "nonpayable", inputs: [{ name: "agentId", type: "uint256" }, { name: "score", type: "int8" }, { name: "uri", type: "string" }], outputs: [] },
   { type: "function", name: "nextAgentId", stateMutability: "view", inputs: [], outputs: [{ name: "", type: "uint256" }] },
   { type: "event", name: "AgentRegistered", inputs: [{ name: "agentId", type: "uint256", indexed: true }, { name: "owner", type: "address", indexed: true }, { name: "metadataURI", type: "string", indexed: false }] },
 ] as const;
@@ -65,8 +67,21 @@ const servicesAbi = [
 const escrowAbi = [
   { type: "function", name: "createJob", stateMutability: "payable", inputs: [{ name: "payee", type: "address" }, { name: "arbiter", type: "address" }, { name: "token", type: "address" }, { name: "deadline", type: "uint64" }, { name: "milestoneAmounts", type: "uint256[]" }], outputs: [{ name: "jobId", type: "uint256" }] },
   { type: "function", name: "release", stateMutability: "nonpayable", inputs: [{ name: "jobId", type: "uint256" }, { name: "index", type: "uint256" }], outputs: [] },
+  {
+    type: "function", name: "getJob", stateMutability: "view", inputs: [{ name: "jobId", type: "uint256" }],
+    outputs: [
+      { name: "job", type: "tuple", components: [
+        { name: "payer", type: "address" }, { name: "payee", type: "address" }, { name: "arbiter", type: "address" },
+        { name: "token", type: "address" }, { name: "deadline", type: "uint64" }, { name: "state", type: "uint8" },
+        { name: "total", type: "uint256" }, { name: "released", type: "uint256" }] },
+      { name: "milestones", type: "uint256[]" },
+      { name: "releasedFlags", type: "bool[]" },
+    ],
+  },
   { type: "event", name: "JobCreated", inputs: [{ name: "jobId", type: "uint256", indexed: true }, { name: "payer", type: "address", indexed: true }, { name: "payee", type: "address", indexed: true }, { name: "token", type: "address", indexed: false }, { name: "total", type: "uint256", indexed: false }] },
 ] as const;
+
+const ESCROW_STATE = ["Active", "Completed", "Refunded"] as const;
 
 // --- Types ---------------------------------------------------------------- //
 
@@ -146,4 +161,57 @@ export async function hireWithEscrow(input: { payee: Address; amountPhrs: string
 export async function releaseMilestone(jobId: number, index: number): Promise<Hash> {
   const w = await wallet();
   return w.writeContract({ chain: PHAROS_ATLANTIC, address: need(ADDR.escrow, "escrow"), abi: escrowAbi, functionName: "release", args: [BigInt(jobId), BigInt(index)] });
+}
+
+export async function attestReputation(agentId: number, score: number, uri = ""): Promise<Hash> {
+  const w = await wallet();
+  return w.writeContract({ chain: PHAROS_ATLANTIC, address: need(ADDR.registry, "registry"), abi: registryAbi, functionName: "attest", args: [BigInt(agentId), score, uri] });
+}
+
+export interface Milestone {
+  index: number;
+  amount: string;
+  released: boolean;
+}
+
+export interface Job {
+  jobId: number;
+  payer: Address;
+  payee: Address;
+  total: string;
+  released: string;
+  state: string;
+  milestones: Milestone[];
+}
+
+/// The caller's primary agent id (0 if not registered).
+export async function getPrimaryAgentId(owner: Address): Promise<number> {
+  if (!ADDR.registry) return 0;
+  const id = (await publicClient.readContract({ address: ADDR.registry, abi: registryAbi, functionName: "primaryAgentId", args: [owner] })) as bigint;
+  return Number(id);
+}
+
+/// Escrow jobs where `payer` is the funder, most-recent first.
+export async function myJobs(payer: Address): Promise<Job[]> {
+  const escrow = need(ADDR.escrow, "escrow");
+  const logs = await publicClient.getContractEvents({ address: escrow, abi: escrowAbi, eventName: "JobCreated", args: { payer }, fromBlock: 0n, toBlock: "latest" });
+  const out: Job[] = [];
+  for (const l of logs.slice(-50)) {
+    const jobId = Number(l.args.jobId ?? 0n);
+    const [job, milestones, flags] = (await publicClient.readContract({ address: escrow, abi: escrowAbi, functionName: "getJob", args: [BigInt(jobId)] })) as [
+      { payer: Address; payee: Address; total: bigint; released: bigint; state: number },
+      readonly bigint[],
+      readonly boolean[],
+    ];
+    out.push({
+      jobId,
+      payer: job.payer,
+      payee: job.payee,
+      total: formatEther(job.total),
+      released: formatEther(job.released),
+      state: ESCROW_STATE[Number(job.state)] ?? "?",
+      milestones: milestones.map((m, i) => ({ index: i, amount: formatEther(m), released: flags[i] ?? false })),
+    });
+  }
+  return out.reverse();
 }
