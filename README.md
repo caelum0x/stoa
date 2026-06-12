@@ -112,10 +112,11 @@ fully offline test suite (`pnpm contracts:test`).
 # 1) Install
 pnpm install
 
-# 2) Contracts — build, test, deploy to Pharos Atlantic (chain 688689)
+# 2) Contracts — build, test, deploy all 13 contracts to Pharos Atlantic (chain 688689)
 pnpm contracts:test
-cp .env.example .env            # fill in PRIVATE_KEY + STOA_PRIVATE_KEY (testnet keys)
-pnpm contracts:deploy           # prints StoaRegistry + StoaEscrow addresses
+cp .env.example .env            # or use .env.deploy.local for PRIVATE_KEY
+pnpm deploy:live                # writes deployments + apps/web/.env.local + .env.deployed
+pnpm seed:live                  # registers demo data for marketplace / agents / social
 
 # 3) Skills — typecheck, test, build
 pnpm --filter @stoa/skills test
@@ -136,7 +137,7 @@ pnpm win
 > the whole project is one loop: `discover → trust → hire → pay → settle → rate`.
 
 > **Network note:** the optional `@x402/*` packages and `express` power the live payment skills.
-> They are declared as `optionalDependencies`; install them in your environment to exercise
+> They are declared as `optionalDependencies`; set `X402_FACILITATOR_URL` to exercise
 > `x402_pay` / `x402_monetize` against a running facilitator.
 
 ## Using the skills in your own agent
@@ -166,6 +167,7 @@ Vercel AI SDK and MCP are equally one line — see [`packages/skills/README.md`]
 - [Architecture](docs/ARCHITECTURE.md)
 - [Security model](docs/SECURITY.md) — CertiK-driven design constraints
 - [Deployment](docs/DEPLOYMENT.md)
+- [Live deployment](docs/LIVE_DEPLOYMENT.md)
 - [Skills reference](packages/skills/README.md)
 - [Contracts](packages/contracts/README.md)
 - [Mercator (Phase 2)](packages/agent-mercator/README.md)

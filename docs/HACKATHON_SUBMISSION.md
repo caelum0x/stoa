@@ -31,9 +31,14 @@ green before submitting to the Pharos Skill-to-Agent Dual Cascade Hackathon.
 - [ ] **Deployed addresses are recorded** — `deployments/pharos-atlantic.json` has real `0x...`
       addresses for all 13 contracts (not placeholders).
 - [ ] **`pnpm contracts:test` passes** — the full offline Foundry suite is green.
+- [ ] **Demo data is seeded** — run `pnpm seed:live` after deploy so marketplace, agents, and
+      social pages read from live chain state.
 
 ## The demo
 
+- [ ] **The web app builds** — `pnpm --filter @stoa/web build` passes and includes the `/contracts`
+      page for Streaming, SubscriptionManager, AgentVault, ArbiterPanel, RwaRegistry, and
+      ValueReputation.
 - [ ] **`pnpm demo:full` runs end-to-end** — the full commerce loop in one command.
 - [ ] **The demo prints transaction hashes** — every value-moving step is a real Pharos tx, with the
       hash echoed to the console.
@@ -47,6 +52,16 @@ green before submitting to the Pharos Skill-to-Agent Dual Cascade Hackathon.
       `PHAROS_RPC_URL`, ...) is listed with a placeholder.
 - [ ] **No private keys committed** — repo history and the working tree contain no real keys,
       mnemonics, or secrets; only `.env.example` placeholders.
+
+## Human-only submission artifacts
+
+- [ ] **2-minute demo video** — show the live deploy manifest, dApp wallet flow, marketplace,
+      dashboard, social/tipping, skill playground, x402 route, and `/contracts`.
+- [ ] **Screenshots** — homepage, marketplace, agents, dashboard, social, activity, skills,
+      playground, x402 paid API, and `/contracts`.
+- [ ] **Pharos explorer proof** — open each deployed address from `deployments/pharos-atlantic.json`.
+- [ ] **CertiK Skill Scanner** — run the official scanner and attach the result.
+- [ ] **DoraHacks form** — paste repo, demo URL, video URL, deployed addresses, and scanner proof.
 
 ## Network reference
 

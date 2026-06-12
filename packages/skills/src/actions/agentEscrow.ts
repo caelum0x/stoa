@@ -10,7 +10,7 @@ export const agentEscrowSchema = z.object({
   // create
   payee: addressSchema.optional().describe("Worker agent address (create)."),
   arbiter: addressSchema.optional().describe("Optional neutral arbiter (create)."),
-  token: tokenSchema.default("native").describe('Payment token or "native" (create).'),
+  token: tokenSchema.optional().describe('Payment token or "native" (create). Defaults to native PHRS.'),
   deadline: z.coerce.number().int().nonnegative().optional().describe("Unix deadline, 0 = none."),
   milestones: z
     .array(decimalAmountSchema)
@@ -64,7 +64,8 @@ export const agentEscrowAction: Action<typeof agentEscrowSchema> = {
         if (!input.payee || !input.milestones?.length) {
           return fail("payee and milestones are required to create a job.");
         }
-        const token: Address = input.token === "native" ? zeroAddress : input.token;
+        const tokenInput = input.token ?? "native";
+        const token: Address = tokenInput === "native" ? zeroAddress : tokenInput;
         const decimals = await resolveDecimals(agent, token);
         const amounts = input.milestones.map((m) => parseUnits(m, decimals));
         const total = amounts.reduce((a, b) => a + b, 0n);
@@ -99,7 +100,7 @@ export const agentEscrowAction: Action<typeof agentEscrowSchema> = {
         return ok("Escrow job created", {
           jobId: jobId !== undefined ? Number(jobId) : undefined,
           total: formatUnits(total, decimals),
-          token: input.token,
+          token: tokenInput,
           txHash: hash,
         });
       }

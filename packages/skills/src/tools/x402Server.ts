@@ -40,17 +40,17 @@ export async function createMonetizedServer(
     paymentMiddleware: (config: unknown, server: unknown) => unknown;
     x402ResourceServer: new (facilitator: unknown) => { register: (n: string, s: unknown) => void };
   }>("@x402/express");
-  const { ExactEvmScheme } = await loadOptional<{ ExactEvmScheme: new (s: unknown) => unknown }>(
+  const { ExactEvmScheme } = await loadOptional<{ ExactEvmScheme: new () => unknown }>(
     "@x402/evm/exact/server",
   );
   const { HTTPFacilitatorClient } = await loadOptional<{
-    HTTPFacilitatorClient: new (url: string) => unknown;
+    HTTPFacilitatorClient: new (opts: { url: string }) => unknown;
   }>("@x402/core/server");
 
   const network = x402Network(agent.chain.id);
-  const facilitator = new HTTPFacilitatorClient(facilitatorUrl);
+  const facilitator = new HTTPFacilitatorClient({ url: facilitatorUrl });
   const resourceServer = new x402ResourceServer(facilitator);
-  resourceServer.register(network, new ExactEvmScheme(agent.account));
+  resourceServer.register(network, new ExactEvmScheme());
 
   const app = express();
   const method = opts.method ?? "GET";

@@ -87,6 +87,7 @@ pnpm win
 - [HACKATHON.md](HACKATHON.md) — pitch + judging matrix
 - [docs/WINNING_FLOW.md](docs/WINNING_FLOW.md) — the one-loop framing
 - [docs/DEMO_SCRIPT.md](docs/DEMO_SCRIPT.md) — narrated demo output
+- [docs/LIVE_DEPLOYMENT.md](docs/LIVE_DEPLOYMENT.md) — Pharos Atlantic addresses + seed proof
 - [docs/HACKATHON_SUBMISSION.md](docs/HACKATHON_SUBMISSION.md) — final submission checklist
 
 ## License

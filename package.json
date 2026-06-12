@@ -16,10 +16,17 @@
     "contracts:test": "forge test --root packages/contracts -vv",
     "contracts:deploy": "forge script packages/contracts/script/Deploy.s.sol:Deploy --root packages/contracts --rpc-url $PHAROS_RPC_URL --broadcast",
     "contracts:seed": "forge script packages/contracts/script/SeedDemo.s.sol:SeedDemo --root packages/contracts --rpc-url $PHAROS_RPC_URL --broadcast",
+    "deploy:live": "forge build --root packages/contracts && pnpm --filter @stoa/skills exec tsx scripts/deploy-live.ts",
+    "seed:live": "pnpm --filter @stoa/skills exec tsx scripts/seed-live.ts",
+    "verify:live": "pnpm --filter @stoa/skills exec tsx scripts/verify-live.ts",
+    "deploy:web": "bash scripts/deploy-vercel.sh",
     "test:integration": "bash scripts/run-integration.sh",
     "demo:full": "pnpm --filter @stoa/examples demo:full",
     "skills:catalog": "pnpm --filter @stoa/skills exec tsx scripts/gen-catalog.ts",
     "win": "pnpm --filter @stoa/skills test && pnpm contracts:test && pnpm demo:full"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "next": "^15.0.0"
+  }
 }
