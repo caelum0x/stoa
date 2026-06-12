@@ -1,7 +1,7 @@
 "use client";
 
-import Link from "next/link";
 import { useState } from "react";
+import { Container, Card, Button, Badge, SectionHeading } from "@/components/ui";
 
 interface FetchState {
   status: number | null;
@@ -49,72 +49,86 @@ export default function ProtectedPage() {
     }
   }
 
+  const is402 = state.status === 402;
+  const is200 = state.status === 200;
+
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 text-gray-900">
-      <div className="max-w-3xl mx-auto px-4 py-12">
-        <Link href="/" className="font-mono text-sm text-blue-600 hover:underline">
-          ← back
-        </Link>
+    <Container className="py-12">
+      <SectionHeading
+        title="x402 paid API"
+        subtitle="Pay-per-call HTTP via the x402 payment protocol"
+      />
 
-        <header className="mt-6 mb-8">
-          <h1 className="text-3xl font-bold mb-2">x402 protected API</h1>
-          <p className="text-gray-600 text-sm leading-relaxed">
-            The endpoint <code className="font-mono bg-gray-100 px-1 rounded">/api/x402/weather</code>{" "}
-            speaks the x402 payment protocol. Without an{" "}
-            <code className="font-mono bg-gray-100 px-1 rounded">X-PAYMENT</code> header it returns{" "}
-            <strong>HTTP 402 Payment Required</strong> describing what it accepts. Resend the request
-            with a valid payment and it returns the data and settles.
-          </p>
-        </header>
+      <div className="grid gap-6 lg:grid-cols-[1fr_320px]">
+        <div className="space-y-6">
+          <Card className="p-6">
+            <label className="mb-4 flex items-center gap-2 font-mono text-sm text-zinc-300">
+              <input
+                type="checkbox"
+                checked={withPayment}
+                onChange={(e) => setWithPayment(e.target.checked)}
+                className="accent-violet-500"
+              />
+              attach demo X-PAYMENT header
+            </label>
+            <Button onClick={callApi} disabled={state.loading}>
+              {state.loading ? "calling…" : "GET /api/x402/weather"}
+            </Button>
+          </Card>
 
-        <div className="rounded-xl border border-gray-200 bg-white p-6 mb-6">
-          <label className="flex items-center gap-2 mb-4 font-mono text-sm">
-            <input
-              type="checkbox"
-              checked={withPayment}
-              onChange={(e) => setWithPayment(e.target.checked)}
-            />
-            attach demo X-PAYMENT header
-          </label>
-          <button
-            onClick={callApi}
-            disabled={state.loading}
-            className="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 rounded-lg font-mono text-white transition-colors"
-          >
-            {state.loading ? "calling…" : "GET /api/x402/weather"}
-          </button>
+          {state.error && (
+            <Card className="border-red-500/30 p-4 font-mono text-sm text-red-300">
+              {state.error}
+            </Card>
+          )}
+
+          {state.status !== null && (
+            <Card className="p-6">
+              <div className="mb-3 flex items-center gap-2">
+                <Badge
+                  className={
+                    is402
+                      ? "border-amber-400/30 bg-amber-400/10 text-amber-300"
+                      : is200
+                        ? "border-emerald-400/30 bg-emerald-400/10 text-emerald-300"
+                        : ""
+                  }
+                >
+                  HTTP {state.status}
+                </Badge>
+                <span className="font-mono text-sm text-zinc-500">
+                  {is402 ? "Payment Required" : is200 ? "OK · settled" : ""}
+                </span>
+              </div>
+              <pre className="scroll-thin overflow-x-auto rounded-lg bg-zinc-950 p-4 font-mono text-xs text-emerald-300">
+                {JSON.stringify(state.body, null, 2)}
+              </pre>
+            </Card>
+          )}
         </div>
 
-        {state.error && (
-          <div className="rounded-xl border border-red-200 bg-red-50 p-4 font-mono text-sm text-red-700">
-            {state.error}
-          </div>
-        )}
-
-        {state.status !== null && (
-          <div className="rounded-xl border border-gray-200 bg-white p-6">
-            <div className="flex items-center gap-2 mb-3">
-              <span
-                className={`font-mono text-sm px-2 py-0.5 rounded ${
-                  state.status === 402
-                    ? "bg-amber-100 text-amber-700"
-                    : state.status === 200
-                      ? "bg-green-100 text-green-700"
-                      : "bg-gray-100 text-gray-700"
-                }`}
-              >
-                HTTP {state.status}
-              </span>
-              <span className="font-mono text-sm text-gray-500">
-                {state.status === 402 ? "Payment Required" : "OK"}
-              </span>
-            </div>
-            <pre className="text-xs bg-gray-50 border border-gray-100 rounded-lg p-4 overflow-x-auto font-mono">
-              {JSON.stringify(state.body, null, 2)}
-            </pre>
-          </div>
-        )}
+        <Card className="h-fit p-6">
+          <h3 className="font-semibold text-zinc-100">How it works</h3>
+          <ol className="mt-4 space-y-3 font-mono text-xs leading-relaxed text-zinc-400">
+            <li>
+              <span className="text-violet-300">1 ·</span> Request{" "}
+              <code className="text-cyan-300">/api/x402/weather</code> with no payment.
+            </li>
+            <li>
+              <span className="text-violet-300">2 ·</span> Server replies{" "}
+              <span className="text-amber-300">402 Payment Required</span> describing what it accepts.
+            </li>
+            <li>
+              <span className="text-violet-300">3 ·</span> Resend with a valid{" "}
+              <code className="text-cyan-300">X-PAYMENT</code> header.
+            </li>
+            <li>
+              <span className="text-violet-300">4 ·</span> Server returns{" "}
+              <span className="text-emerald-300">200 OK</span> with data and settles the payment.
+            </li>
+          </ol>
+        </Card>
       </div>
-    </div>
+    </Container>
   );
 }

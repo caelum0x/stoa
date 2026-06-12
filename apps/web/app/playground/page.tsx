@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useMemo, useState } from "react";
-import Link from "next/link";
+import { Container, Card, Button, SectionHeading } from "@/components/ui";
 
 interface RunnableSkill {
   name: string;
@@ -60,59 +60,52 @@ export default function PlaygroundPage() {
   }
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 text-gray-900">
-      <div className="max-w-4xl mx-auto px-4 py-12">
-        <Link href="/" className="text-sm text-blue-600 font-mono">&larr; back</Link>
-        <h1 className="text-3xl font-bold mt-4 mb-1">Skill Playground</h1>
-        <p className="text-gray-600 mb-8 font-mono text-sm">
-          Run read-only Stoa skills live ({skills.length} available — pure + market-data).
-        </p>
+    <Container className="py-12">
+      <SectionHeading
+        title="Skill playground"
+        subtitle={`Run read-only skills live · ${skills.length} available (pure + market-data)`}
+      />
 
-        <div className="grid md:grid-cols-2 gap-6">
-          <div className="space-y-4">
-            <label className="block font-mono text-sm">
-              <span className="text-gray-500">skill</span>
-              <select
-                value={selected}
-                onChange={(e) => setSelected(e.target.value)}
-                className="mt-1 w-full border border-gray-300 rounded-lg p-2 font-mono text-sm bg-white"
-              >
-                {skills.map((s) => (
-                  <option key={s.name} value={s.name}>
-                    {s.name} · {s.domain}
-                  </option>
-                ))}
-              </select>
-            </label>
-            {current && <p className="text-xs text-gray-500 font-mono">{current.description}</p>}
-
-            <label className="block font-mono text-sm">
-              <span className="text-gray-500">input (JSON)</span>
-              <textarea
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                rows={6}
-                className="mt-1 w-full border border-gray-300 rounded-lg p-3 font-mono text-sm bg-white"
-              />
-            </label>
-
-            <button
-              onClick={run}
-              disabled={busy || !selected}
-              className="px-6 py-3 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white rounded-lg font-mono transition-colors"
+      <div className="grid gap-6 md:grid-cols-2">
+        <Card className="space-y-4 p-6">
+          <label className="block font-mono text-sm">
+            <span className="text-zinc-500">skill</span>
+            <select
+              value={selected}
+              onChange={(e) => setSelected(e.target.value)}
+              className="mt-1 w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 font-mono text-sm text-zinc-100 outline-none focus:border-violet-400/50"
             >
-              {busy ? "Running…" : "Run skill"}
-            </button>
-          </div>
+              {skills.map((s) => (
+                <option key={s.name} value={s.name} className="bg-zinc-900">
+                  {s.name} · {s.domain}
+                </option>
+              ))}
+            </select>
+          </label>
+          {current && <p className="font-mono text-xs text-zinc-500">{current.description}</p>}
 
-          <div>
-            <span className="text-gray-500 font-mono text-sm">result</span>
-            <pre className="mt-1 bg-gray-900 text-green-300 rounded-lg p-4 text-xs overflow-auto h-[22rem] font-mono">
-              {result || "// run a skill to see its output"}
-            </pre>
-          </div>
+          <label className="block font-mono text-sm">
+            <span className="text-zinc-500">input (JSON)</span>
+            <textarea
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              rows={6}
+              className="mt-1 w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 font-mono text-sm text-zinc-100 outline-none focus:border-violet-400/50"
+            />
+          </label>
+
+          <Button onClick={run} disabled={busy || !selected} className="w-full">
+            {busy ? "Running…" : "Run skill"}
+          </Button>
+        </Card>
+
+        <div>
+          <span className="font-mono text-sm text-zinc-500">result</span>
+          <pre className="scroll-thin mt-1 h-[22rem] overflow-auto rounded-lg bg-zinc-950 p-4 font-mono text-xs text-emerald-300">
+            {result || "// run a skill to see its output"}
+          </pre>
         </div>
       </div>
-    </main>
+    </Container>
   );
 }

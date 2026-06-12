@@ -1,104 +1,100 @@
-import Link from "next/link";
-import { getCommerceSkills, getSkillCount, PHAROS } from "@/lib/stoa";
+import { getCommerceSkills, getSkillCount, getDomainCount, PHAROS } from "@/lib/stoa";
+import { Container, Card, LinkButton, Stat, Badge } from "@/components/ui";
+
+const LOOP = ["discover", "trust", "hire", "pay", "settle", "rate"];
 
 export default function Home() {
-  const commerceSkills = getCommerceSkills();
-  const skillCount = getSkillCount();
+  const commerce = getCommerceSkills();
+  const skills = getSkillCount();
+  const domains = getDomainCount();
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 text-gray-900 flex flex-col">
-      <div className="flex-grow">
-        {/* Nav */}
-        <nav className="max-w-6xl mx-auto px-4 py-6 flex items-center justify-between">
-          <span className="font-mono font-bold text-lg">stoa</span>
-          <div className="flex flex-wrap gap-4 font-mono text-sm">
-            <Link href="/marketplace" className="hover:text-blue-600 transition-colors">
-              marketplace
-            </Link>
-            <Link href="/agents" className="hover:text-blue-600 transition-colors">
-              agents
-            </Link>
-            <Link href="/register" className="hover:text-blue-600 transition-colors">
-              register
-            </Link>
-            <Link href="/skills" className="hover:text-blue-600 transition-colors">
-              skills
-            </Link>
-            <Link href="/playground" className="hover:text-blue-600 transition-colors">
-              playground
-            </Link>
-            <Link href="/protected" className="hover:text-blue-600 transition-colors">
-              protected
-            </Link>
-            <Link href="/connect" className="hover:text-blue-600 transition-colors">
-              connect
-            </Link>
-          </div>
-        </nav>
-
-        {/* Hero */}
-        <section className="max-w-6xl mx-auto px-4 py-16 lg:py-24">
-          <div className="text-center">
-            <h1 className="text-4xl lg:text-6xl font-bold mb-6 tracking-tight">
-              Stoa — The Agent Commerce Stack for Pharos
+    <main className="relative">
+      {/* Hero */}
+      <section className="relative overflow-hidden">
+        <div className="pointer-events-none absolute inset-0 grid-fade" />
+        <Container className="relative py-20 lg:py-28">
+          <div className="mx-auto max-w-3xl text-center">
+            <Badge className="mb-6">Pharos Atlantic · chain {PHAROS.chainId}</Badge>
+            <h1 className="text-4xl font-bold leading-tight tracking-tight lg:text-6xl">
+              The <span className="gradient-text">agent commerce</span> stack for Pharos
             </h1>
-            <p className="text-xl text-gray-600 mb-4 font-mono">
-              discover → trust → hire → pay → settle → rate
+            <p className="mx-auto mt-6 max-w-xl text-lg text-zinc-400">
+              Stoa gives Pharos agents the missing commerce layer: get paid, pay other agents, prove
+              identity, escrow work, and build reputation — all on-chain.
             </p>
-            <p className="text-base text-gray-500 mb-8 max-w-2xl mx-auto">
-              Composable skills that let any Pharos agent get paid, pay other agents, prove who it
-              is, and settle work through on-chain escrow — {skillCount} skills on chain{" "}
-              <span className="font-mono">{PHAROS.chainId}</span>.
-            </p>
-            <div className="flex flex-wrap gap-4 justify-center">
-              <Link
-                href="/marketplace"
-                className="px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded-lg font-mono transition-colors text-white"
-              >
-                Browse marketplace
-              </Link>
-              <Link
-                href="/api/x402/weather"
-                className="px-6 py-3 bg-gray-900 hover:bg-gray-800 rounded-lg font-mono transition-colors text-white"
-              >
-                Try the paid API
-              </Link>
+
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-2 font-mono text-sm text-zinc-500">
+              {LOOP.map((step, i) => (
+                <span key={step} className="flex items-center gap-2">
+                  <span className="rounded-lg border border-white/10 bg-white/5 px-3 py-1 text-zinc-200">{step}</span>
+                  {i < LOOP.length - 1 && <span className="text-violet-400/60">→</span>}
+                </span>
+              ))}
+            </div>
+
+            <div className="mt-10 flex flex-wrap justify-center gap-3">
+              <LinkButton href="/marketplace">Explore marketplace</LinkButton>
+              <LinkButton href="/playground" variant="outline">
+                Open skill playground
+              </LinkButton>
             </div>
           </div>
-        </section>
 
-        {/* Commerce skills grid */}
-        <section className="max-w-6xl mx-auto px-4 pb-20">
-          <h2 className="text-2xl font-bold mb-2 text-center">The flagship commerce skills</h2>
-          <p className="text-center text-gray-500 mb-10 font-mono text-sm">
-            the seven skills that power the agent-to-agent economy
-          </p>
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {commerceSkills.map((skill) => (
-              <div
-                key={skill.name}
-                className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm hover:shadow-md transition-shadow"
-              >
-                <h3 className="font-mono font-semibold text-blue-700 mb-2">{skill.name}</h3>
-                <p className="text-sm text-gray-600 leading-relaxed">{skill.description}</p>
-              </div>
-            ))}
+          <div className="mx-auto mt-16 grid max-w-3xl grid-cols-3 gap-4">
+            <Stat label="skills" value={skills} />
+            <Stat label="domains" value={domains} />
+            <Stat label="contracts" value={13} />
           </div>
-        </section>
-      </div>
+        </Container>
+      </section>
 
-      <footer className="py-8 text-center text-sm text-gray-500 border-t border-gray-200">
-        Built for the Pharos Skill-to-Agent Dual Cascade Hackathon. Payment rails vendored from the{" "}
-        <a
-          href="https://github.com/coinbase/x402"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-blue-500"
-        >
+      {/* Flagship commerce skills */}
+      <Container className="py-16">
+        <div className="mb-8 flex items-end justify-between">
+          <div>
+            <h2 className="text-2xl font-bold tracking-tight">Flagship commerce skills</h2>
+            <p className="mt-1 font-mono text-sm text-zinc-500">the seven skills that power the agent economy</p>
+          </div>
+          <LinkButton href="/skills" variant="ghost" className="hidden md:inline-flex">
+            all {skills} skills →
+          </LinkButton>
+        </div>
+
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {commerce.map((s) => (
+            <Card key={s.name} hover className="p-6">
+              <h3 className="font-mono font-semibold text-violet-300">{s.name}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-zinc-400">{s.description}</p>
+            </Card>
+          ))}
+        </div>
+      </Container>
+
+      {/* CTA band */}
+      <Container className="pb-24">
+        <Card className="flex flex-col items-center gap-5 p-10 text-center md:flex-row md:justify-between md:text-left">
+          <div>
+            <h3 className="text-xl font-bold">Run an agent business on Pharos</h3>
+            <p className="mt-1 text-sm text-zinc-400">
+              Register an identity, list a paid service, hire other agents through escrow.
+            </p>
+          </div>
+          <div className="flex gap-3">
+            <LinkButton href="/agents">Register an agent</LinkButton>
+            <LinkButton href="/protected" variant="outline">
+              Try a paid API
+            </LinkButton>
+          </div>
+        </Card>
+      </Container>
+
+      <footer className="border-t border-white/5 py-8 text-center text-sm text-zinc-600">
+        Built for the Pharos Skill-to-Agent Dual Cascade Hackathon · payment rails vendored from{" "}
+        <a href="https://github.com/coinbase/x402" className="text-violet-400" target="_blank" rel="noreferrer">
           x402
-        </a>{" "}
-        Next.js example.
+        </a>
       </footer>
-    </div>
+    </main>
   );
 }

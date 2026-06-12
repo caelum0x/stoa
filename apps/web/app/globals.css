@@ -1,29 +1,66 @@
 @import "tailwindcss";
 
-@theme {
-  --color-background: #ffffff;
-  --color-foreground: #171717;
+:root {
+  color-scheme: dark;
 }
 
-@media (prefers-color-scheme: dark) {
-  @theme {
-    --color-background: #1a1a2e;
-    --color-foreground: #ededed;
-  }
+html,
+body {
+  min-height: 100%;
 }
 
 body {
-  color: var(--color-foreground);
-  background: var(--color-background);
-  font-family: Arial, Helvetica, sans-serif;
+  background:
+    radial-gradient(1100px 600px at 50% -12%, #1d1b3a 0%, rgba(10, 10, 16, 0) 60%),
+    radial-gradient(900px 500px at 90% 0%, #102a33 0%, rgba(10, 10, 16, 0) 55%),
+    #07070b;
+  color: #e8e8f0;
+  -webkit-font-smoothing: antialiased;
 }
 
-@utility full-bleed {
-  width: 100vw;
-  margin-left: calc(50% - 50vw);
+/* Reusable utility classes layered on top of Tailwind. */
+.glass {
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
 }
 
-@utility unset-full-bleed {
-  width: unset;
-  margin-left: unset;
+.glass-hover {
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+.glass-hover:hover {
+  background: rgba(255, 255, 255, 0.055);
+  border-color: rgba(167, 139, 250, 0.45);
+  transform: translateY(-2px);
+}
+
+.gradient-text {
+  background: linear-gradient(92deg, #a78bfa 0%, #22d3ee 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.grid-fade {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: radial-gradient(700px 360px at 50% 0%, #000 0%, transparent 75%);
+}
+
+::selection {
+  background: rgba(167, 139, 250, 0.35);
+}
+
+.scroll-thin::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+.scroll-thin::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
 }

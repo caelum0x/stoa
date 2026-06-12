@@ -1,61 +1,72 @@
 "use client";
-import { useState } from "react";
-import Link from "next/link";
-import { connectWallet, switchToPharos, getPhrsBalance, PHAROS_ATLANTIC } from "@/lib/wallet";
+import { Container, Card, Button, Badge, SectionHeading } from "@/components/ui";
+import { useWallet } from "@/components/WalletProvider";
+import { PHAROS_ATLANTIC } from "@/lib/wallet";
 
 export default function ConnectPage() {
-  const [address, setAddress] = useState<string | null>(null);
-  const [balance, setBalance] = useState<string | null>(null);
-  const [error, setError] = useState<string | null>(null);
-  const [busy, setBusy] = useState(false);
-
-  async function onConnect() {
-    setError(null);
-    setBusy(true);
-    try {
-      const addr = await connectWallet();
-      setAddress(addr);
-      setBalance(await getPhrsBalance(addr));
-    } catch (e) {
-      setError(e instanceof Error ? e.message : String(e));
-    } finally {
-      setBusy(false);
-    }
-  }
+  const { address, balance, chainId, isPharos, connecting, error, connect, switchToPharos } =
+    useWallet();
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 text-gray-900">
-      <div className="max-w-2xl mx-auto px-4 py-16">
-        <Link href="/" className="text-sm text-blue-600 font-mono">&larr; back</Link>
-        <h1 className="text-3xl font-bold mt-4 mb-2">Connect to Pharos</h1>
-        <p className="text-gray-600 mb-8 font-mono text-sm">
-          Chain {PHAROS_ATLANTIC.id} · {PHAROS_ATLANTIC.name}
-        </p>
+    <Container className="py-12">
+      <SectionHeading
+        title="Wallet"
+        subtitle={`Chain ${PHAROS_ATLANTIC.id} · ${PHAROS_ATLANTIC.name}`}
+      />
 
-        <div className="flex flex-wrap gap-3 mb-8">
-          <button
-            onClick={onConnect}
-            disabled={busy}
-            className="px-6 py-3 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white rounded-lg font-mono transition-colors"
-          >
-            {busy ? "Connecting…" : address ? "Reconnect" : "Connect wallet"}
-          </button>
-          <button
-            onClick={() => switchToPharos().catch((e) => setError(String(e)))}
-            className="px-6 py-3 border border-gray-300 hover:bg-gray-50 rounded-lg font-mono transition-colors"
+      <div className="grid gap-6 lg:grid-cols-[1fr_320px]">
+        <Card className="p-6">
+          {!address ? (
+            <div className="space-y-4">
+              <p className="font-mono text-sm text-zinc-400">
+                Connect an injected wallet to view your Pharos status.
+              </p>
+              <Button onClick={connect} disabled={connecting}>
+                {connecting ? "Connecting…" : "Connect wallet"}
+              </Button>
+            </div>
+          ) : (
+            <div className="space-y-4 font-mono text-sm">
+              {!isPharos && (
+                <Badge className="border-amber-400/30 bg-amber-400/10 text-amber-300">
+                  Wrong network — switch to Pharos
+                </Badge>
+              )}
+              <div className="space-y-3">
+                <div>
+                  <div className="text-xs uppercase tracking-wide text-zinc-500">address</div>
+                  <div className="mt-1 break-all text-zinc-100">{address}</div>
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <div className="text-xs uppercase tracking-wide text-zinc-500">PHRS balance</div>
+                    <div className="mt-1 text-cyan-300">{balance ?? "…"}</div>
+                  </div>
+                  <div>
+                    <div className="text-xs uppercase tracking-wide text-zinc-500">chain id</div>
+                    <div className="mt-1 text-zinc-100">{chainId ?? "—"}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+          {error && <p className="mt-4 font-mono text-sm text-red-400">{error}</p>}
+        </Card>
+
+        <Card className="h-fit p-6">
+          <h3 className="font-semibold text-zinc-100">Pharos network</h3>
+          <p className="mt-1 font-mono text-xs text-zinc-500">
+            Add {PHAROS_ATLANTIC.name} to your wallet to transact.
+          </p>
+          <Button
+            variant="outline"
+            onClick={() => void switchToPharos()}
+            className="mt-5 w-full"
           >
             Add Pharos network
-          </button>
-        </div>
-
-        {address && (
-          <div className="rounded-xl border border-gray-200 bg-white p-6 space-y-2 font-mono text-sm">
-            <div><span className="text-gray-500">address:</span> {address}</div>
-            <div><span className="text-gray-500">PHRS balance:</span> {balance ?? "…"}</div>
-          </div>
-        )}
-        {error && <p className="mt-4 text-red-600 font-mono text-sm">{error}</p>}
+          </Button>
+        </Card>
       </div>
-    </main>
+    </Container>
   );
 }
