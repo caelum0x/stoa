@@ -15,11 +15,20 @@ export default function Home() {
             <Link href="/marketplace" className="hover:text-blue-600 transition-colors">
               marketplace
             </Link>
+            <Link href="/agents" className="hover:text-blue-600 transition-colors">
+              agents
+            </Link>
             <Link href="/skills" className="hover:text-blue-600 transition-colors">
               skills
             </Link>
+            <Link href="/playground" className="hover:text-blue-600 transition-colors">
+              playground
+            </Link>
             <Link href="/protected" className="hover:text-blue-600 transition-colors">
               protected
+            </Link>
+            <Link href="/connect" className="hover:text-blue-600 transition-colors">
+              connect
             </Link>
           </div>
         </nav>
